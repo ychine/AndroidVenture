@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name and Text -->
+    <string name="app_name">ANDeventure</string>
+    <string name="app_subtitle">Android Studio Game</string>
+    <string name="app_logo_description">AndroidVenture Logo</string>
+
+    <!-- Button Labels -->
+    <string name="start_adventure">START ADVENTURE</string>
+    <string name="settings">SETTINGS</string>
+    <string name="continue_game">CONTINUE</string>
+    <string name="new_game">NEW GAME</string>
+    <string name="back">BACK</string>
+
+    <!-- Level Names -->
+    <string name="level_1_name">Activity Forest</string>
+    <string name="level_1_description">Navigate the Activity lifecycle stages</string>
+
+    <string name="level_2_name">UI Builder\'s Workshop</string>
+    <string name="level_2_description">Assemble UIs with drag-and-drop components</string>
+
+    <string name="level_3_name">Intent Gate</string>
+    <string name="level_3_description">Connect app components with Intents</string>
+
+    <string name="level_4_name">Variable Vault</string>
+    <string name="level_4_description">Match data types with values</string>
+
+    <string name="level_5_name">Async Abyss</string>
+    <string name="level_5_description">Navigate using async bridges</string>
+
+    <string name="level_6_name">Bug Battle</string>
+    <string name="level_6_description">Find and fix bugs to advance</string>
+
+    <!-- Level Select Screen -->
+    <string name="level_select_title">Choose Your Challenge</string>
+    <string name="level_locked">Complete previous levels to unlock</string>
+    <string name="level_completed">Completed! Score: %1$d</string>
+
+    <!-- Tutorial Text -->
+    <string name="tutorial_welcome">Welcome to AndroidVenture!</string>
+    <string name="tutorial_drag">Drag elements to connect them</string>
+    <string name="tutorial_tap">Tap to activate or select</string>
+    <string name="tutorial_next">Next</string>
+    <string name="tutorial_skip">Skip Tutorial</string>
+
+    <!-- Achievement Messages -->
+    <string name="achievement_unlocked">Achievement Unlocked!</string>
+    <string name="level_complete">Level Complete!</string>
+    <string name="new_level_unlocked">New Level Unlocked!</string>
+    <string name="points_earned">+%1$d XP</string>
+
+    <!-- Dialog Messages -->
+    <string name="dialog_exit_title">Exit Game?</string>
+    <string name="dialog_exit_message">Your progress in this level will be lost.</string>
+    <string name="dialog_yes">YES</string>
+    <string name="dialog_no">NO</string>
+    <string name="dialog_ok">OK</string>
+</resources>

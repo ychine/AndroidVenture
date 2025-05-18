@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main Theme Colors -->
+    <color name="colorPrimary">#4285F4</color>
+    <color name="colorPrimaryDark">#3367D6</color>
+    <color name="colorAccent">#FF5722</color>
+
+    <!-- UI Element Colors -->
+    <color name="colorBackground">#FAFAFA</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#212121</color>
+    <color name="colorDisabled">#9E9E9E</color>
+
+    <!-- Button Colors -->
+    <color name="buttonPrimary">#4285F4</color>
+    <color name="buttonSecondary">#FFFFFF</color>
+    <color name="buttonSuccess">#4CAF50</color>
+    <color name="buttonError">#F44336</color>
+
+    <!-- Text Colors -->
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+    <color name="textOnDark">#FFFFFF</color>
+    <color name="linkColor">#4285F4</color>
+
+    <!-- Level Theme Colors -->
+    <color name="level1_primary">#4CAF50</color>  <!-- Activity Forest - Green -->
+    <color name="level1_secondary">#81C784</color>
+
+    <color name="level2_primary">#2196F3</color>  <!-- UI Builder's Workshop - Blue -->
+    <color name="level2_secondary">#64B5F6</color>
+
+    <color name="level3_primary">#9C27B0</color>  <!-- Intent Gate - Purple -->
+    <color name="level3_secondary">#BA68C8</color>
+
+    <color name="level4_primary">#FF9800</color>  <!-- Variable Vault - Orange -->
+    <color name="level4_secondary">#FFB74D</color>
+
+    <color name="level5_primary">#673AB7</color>  <!-- Async Abyss - Deep Purple -->
+    <color name="level5_secondary">#9575CD</color>
+
+    <color name="level6_primary">#F44336</color>  <!-- Bug Battle - Red -->
+    <color name="level6_secondary">#E57373</color>
+
+    <!-- Game Element Colors -->
+    <color name="codeBlock">#E1F5FE</color>
+    <color name="codeBlockBorder">#81D4FA</color>
+    <color name="connector">#4285F4</color>
+    <color name="correctPath">#4CAF50</color>
+    <color name="wrongPath">#F44336</color>
+
+    <!-- Progress Colors -->
+    <color name="progressBarBackground">#E0E0E0</color>
+    <color name="progressBarFill">#4CAF50</color>
+    <color name="starFilled">#FFD700</color>
+    <color name="starEmpty">#E0E0E0</color>
+
+    <!-- Tutorial Colors -->
+    <color name="tutorialBackground">#99000000</color>
+    <color name="tutorialHighlight">#4DFFFFFF</color>
+    <color name="tutorialText">#FFFFFF</color>
+
+    <color name="connector_line">#FF5722</color>
+    <color name="success_green">#4CAF50</color>  <!-- or any green -->
+    <color name="error_red">#F44336</color>
+</resources>

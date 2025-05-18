@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base gradient background -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="135"
+                android:startColor="#3F51B5"
+                android:endColor="#2A3C9D"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Grid pattern overlay -->
+    <item>
+        <bitmap
+            android:src="@drawable/grid_pattern"
+            android:tileMode="repeat"
+            android:alpha="25" /> <!-- use 0-255 instead of 0.1 float -->
+    </item>
+
+    <!-- Top light effect (positioned normally to avoid error) -->
+    <item android:top="0dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="500dp"
+                android:startColor="#4DFFFFFF"
+                android:centerColor="#804285F4"
+                android:endColor="#00FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Bottom-right light effect -->
+    <item android:right="0dp" android:bottom="0dp">
+        <shape android:shape="oval">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="300dp"
+                android:startColor="#66FF9800"
+                android:centerColor="#33FF5722"
+                android:endColor="#00FFFFFF" />
+        </shape>
+    </item>
+
+</layer-list>
