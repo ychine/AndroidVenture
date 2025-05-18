@@ -214,7 +214,7 @@
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:text="onStart()"
-        tools:layout_editor_absoluteX="210dp"
+        tools:layout_editor_absoluteX="212dp"
         tools:layout_editor_absoluteY="125dp" />
 
     <com.example.androidventure.widgets.DraggableCodeBlock
@@ -225,17 +225,17 @@
         tools:layout_editor_absoluteX="210dp"
         tools:layout_editor_absoluteY="183dp" />
 
+    <!-- Confetti overlay (initially invisible) -->
     <com.example.androidventure.widgets.DraggableCodeBlock
         android:id="@+id/block_oncreate"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:text="onCreate()"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instruction_text" />
 
-    <!-- Confetti overlay (initially invisible) -->
     <View
         android:id="@+id/confetti_overlay"
         android:layout_width="match_parent"

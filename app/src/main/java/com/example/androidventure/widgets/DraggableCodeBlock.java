@@ -39,7 +39,7 @@ public class DraggableCodeBlock extends AppCompatTextView {
 
     private void init() {
         // Set text appearance
-        setTextColor(Color.WHITE);
+        setTextColor(Color.BLACK);
         setTextSize(16);
         setAllCaps(false);
         setPadding(24, 12, 24, 12);

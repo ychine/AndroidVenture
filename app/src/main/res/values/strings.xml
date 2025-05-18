@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Name and Text -->
-    <string name="app_name">ANDeventure</string>
+    <string name="app_name">AndroidVenture</string>
     <string name="app_subtitle">Android Studio Game</string>
     <string name="app_logo_description">AndroidVenture Logo</string>
 
@@ -55,4 +55,6 @@
     <string name="dialog_yes">YES</string>
     <string name="dialog_no">NO</string>
     <string name="dialog_ok">OK</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
