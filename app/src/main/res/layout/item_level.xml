@@ -35,6 +35,25 @@
             android:background="#80000000" />
 
         <!-- Level Icon with shadow -->
+
+        <!-- Level Number in a colored circle -->
+        <TextView
+            android:id="@+id/level_number"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/circle_number"
+            android:elevation="9dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1" />
+
+        <!-- Level Name -->
         <ImageView
             android:id="@+id/level_icon"
             android:layout_width="56dp"
@@ -47,23 +66,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/level1_icon" />
 
-        <!-- Level Number in a colored circle -->
-        <TextView
-            android:id="@+id/level_number"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/circle_number"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp"
-            tools:text="1" />
-
-        <!-- Level Name -->
         <TextView
             android:id="@+id/level_name"
             android:layout_width="0dp"
@@ -118,9 +120,10 @@
             android:id="@+id/lock_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:alpha="0"
+            android:elevation="10dp"
             android:src="@drawable/ic_lock"
             android:visibility="gone"
-            android:alpha="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

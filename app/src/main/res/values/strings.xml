@@ -2,7 +2,7 @@
 <resources>
     <!-- App Name and Text -->
     <string name="app_name">AndroidVenture</string>
-    <string name="app_subtitle">Android Studio Game</string>
+    <string name="app_subtitle">Made By Benitez, Martinez, Santos</string>
     <string name="app_logo_description">AndroidVenture Logo</string>
 
     <!-- Button Labels -->
