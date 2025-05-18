@@ -20,7 +20,7 @@
             android:exported="false" />
         <activity
             android:name=".LevelSelectActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ForestActivity"
             android:exported="false" />

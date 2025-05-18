@@ -1,7 +1,10 @@
 package com.example.androidventure.levels;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -47,6 +50,10 @@ public class ActivityForestLevel extends AppCompatActivity {
     private int attempts = 0;
     private int score = MAX_SCORE;
 
+    private View confettiOverlay;
+    private View hintOverlay;
+    private TextView hintText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +78,10 @@ public class ActivityForestLevel extends AppCompatActivity {
         if (!gameStateManager.isTutorialCompleted()) {
             showTutorial();
         }
+
+        confettiOverlay = findViewById(R.id.confetti_overlay);
+        hintOverlay = findViewById(R.id.hint_overlay);
+        hintText = findViewById(R.id.hint_text);
     }
 
     private void initializeUI() {
@@ -190,36 +201,41 @@ public class ActivityForestLevel extends AppCompatActivity {
     }
 
     private void showHint() {
-        // Show a toast with a hint about the correct order
-        Toast.makeText(this, "The Android activity lifecycle follows a specific sequence from creation to destruction.",
-                Toast.LENGTH_LONG).show();
-
+        // Show animated hint overlay
+        hintText.setText("The Android activity lifecycle follows a specific sequence from creation to destruction.");
+        hintOverlay.setVisibility(View.VISIBLE);
+        hintOverlay.setAlpha(0f);
+        hintOverlay.animate().alpha(1f).setDuration(400).start();
+        // Hide after 3 seconds
+        new Handler().postDelayed(() -> hintOverlay.animate().alpha(0f).setDuration(400).withEndAction(() -> hintOverlay.setVisibility(View.GONE)).start(), 3000);
         // Highlight onCreate block briefly
-        ObjectAnimator highlight = ObjectAnimator.ofFloat(onCreateBlock, "alpha",
-                1f, 0.5f, 1f);
+        ObjectAnimator highlight = ObjectAnimator.ofFloat(onCreateBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();
     }
 
     private void checkAnswer() {
         attempts++;
-
-        // Check if blocks are in correct positions
         boolean correct = isBlockNearTarget(onCreateBlock, target1) &&
                 isBlockNearTarget(onStartBlock, target2) &&
                 isBlockNearTarget(onResumeBlock, target3) &&
                 isBlockNearTarget(onPauseBlock, target4) &&
                 isBlockNearTarget(onStopBlock, target5) &&
                 isBlockNearTarget(onDestroyBlock, target6);
-
         if (correct) {
+            // Animate all blocks with bounce and glow
+            animateBlockSuccess(onCreateBlock);
+            animateBlockSuccess(onStartBlock);
+            animateBlockSuccess(onResumeBlock);
+            animateBlockSuccess(onPauseBlock);
+            animateBlockSuccess(onStopBlock);
+            animateBlockSuccess(onDestroyBlock);
+            showConfetti();
             completeLevelSuccess();
         } else {
-            // Reduce score for each failed attempt after the first
             if (attempts > 1 && score > 1) {
                 score--;
             }
-
             Toast.makeText(this, "Not quite right. Try again!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -239,6 +255,25 @@ public class ActivityForestLevel extends AppCompatActivity {
 
         // Block is considered on target if its center is within 50dp of target center
         return distance < 150;
+    }
+
+    private void animateBlockSuccess(View block) {
+        AnimatorSet set = new AnimatorSet();
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(block, "scaleX", 1f, 1.2f, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(block, "scaleY", 1f, 1.2f, 1f);
+        ObjectAnimator glow = ObjectAnimator.ofArgb(block, "backgroundColor", Color.parseColor("#4CAF50"), Color.parseColor("#A5D6A7"), Color.parseColor("#4CAF50"));
+        set.playTogether(scaleX, scaleY, glow);
+        set.setDuration(700);
+        set.start();
+    }
+
+    private void showConfetti() {
+        confettiOverlay.setBackgroundColor(Color.parseColor("#80FFD700"));
+        confettiOverlay.setVisibility(View.VISIBLE);
+        confettiOverlay.setAlpha(0f);
+        confettiOverlay.animate().alpha(1f).setDuration(400).start();
+        // Fade out after 1.5s
+        new Handler().postDelayed(() -> confettiOverlay.animate().alpha(0f).setDuration(800).withEndAction(() -> confettiOverlay.setVisibility(View.GONE)).start(), 1500);
     }
 
     private void completeLevelSuccess() {

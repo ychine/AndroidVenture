@@ -235,4 +235,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instruction_text" />
 
+    <!-- Confetti overlay (initially invisible) -->
+    <View
+        android:id="@+id/confetti_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
+
+    <!-- Modern hint overlay (initially invisible) -->
+    <LinearLayout
+        android:id="@+id/hint_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#CCFFFFFF"
+        android:padding="16dp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_dialog_info"
+            android:tint="@color/level1_primary"/>
+        <TextView
+            android:id="@+id/hint_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/level1_primary"
+            android:textSize="15sp"
+            android:text="Hint goes here"/>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

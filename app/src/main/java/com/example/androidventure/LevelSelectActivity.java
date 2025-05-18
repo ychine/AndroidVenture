@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -30,6 +31,7 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
+        Toast.makeText(this, "LevelSelectActivity launched!", Toast.LENGTH_SHORT).show();
 
         // Initialize UI components
         levelRecyclerView = findViewById(R.id.level_recycler_view);

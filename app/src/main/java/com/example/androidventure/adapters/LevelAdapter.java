@@ -14,6 +14,10 @@ import com.example.androidventure.R;
 import com.example.androidventure.models.Level;
 
 import java.util.List;
+import android.animation.ObjectAnimator;
+import android.animation.AnimatorSet;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.os.Handler;
 
 public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHolder> {
 
@@ -69,6 +73,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHol
         private RatingBar levelStars;
         private ImageView lockIcon;
         private View overlay;
+        private View rippleEffect;
 
         public LevelViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +85,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHol
             levelStars = itemView.findViewById(R.id.level_stars);
             lockIcon = itemView.findViewById(R.id.lock_icon);
             overlay = itemView.findViewById(R.id.overlay);
+            rippleEffect = itemView.findViewById(R.id.ripple_effect);
         }
 
         /**
@@ -131,20 +137,46 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHol
 
             // Handle lock/unlock status
             if (level.isUnlocked()) {
-                lockIcon.setVisibility(View.GONE);
-                overlay.setAlpha(0.5f);
+                // Animate lock fade out
+                lockIcon.animate().alpha(0f).setDuration(400).start();
+                overlay.animate().alpha(0.15f).setDuration(400).start();
 
-                // Set click listener
+                // Animate stars if completed
+                if (level.isCompleted()) {
+                    levelStars.setVisibility(View.VISIBLE);
+                    ObjectAnimator scaleX = ObjectAnimator.ofFloat(levelStars, "scaleX", 0.7f, 1.2f, 1f);
+                    ObjectAnimator scaleY = ObjectAnimator.ofFloat(levelStars, "scaleY", 0.7f, 1.2f, 1f);
+                    AnimatorSet set = new AnimatorSet();
+                    set.playTogether(scaleX, scaleY);
+                    set.setDuration(600);
+                    set.setInterpolator(new AccelerateDecelerateInterpolator());
+                    set.start();
+                } else {
+                    levelStars.setVisibility(View.INVISIBLE);
+                }
+
+                // Ripple effect on tap
+                itemView.setClickable(true);
+                itemView.setFocusable(true);
+                itemView.setForeground(itemView.getContext().getDrawable(android.R.drawable.list_selector_background));
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // Animate ripple
+                        rippleEffect.setPressed(true);
+                        new Handler().postDelayed(() -> rippleEffect.setPressed(false), 300);
                         listener.onLevelClick(level);
                     }
                 });
             } else {
+                // Animate lock fade in
                 lockIcon.setVisibility(View.VISIBLE);
-                overlay.setAlpha(0.7f);
+                lockIcon.animate().alpha(1f).setDuration(400).start();
+                overlay.animate().alpha(0.7f).setDuration(400).start();
+                levelStars.setVisibility(View.INVISIBLE);
                 itemView.setOnClickListener(null);
+                itemView.setClickable(false);
+                itemView.setFocusable(false);
             }
         }
     }

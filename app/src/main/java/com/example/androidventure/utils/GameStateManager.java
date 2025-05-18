@@ -2,20 +2,31 @@ package com.example.androidventure.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.os.VibratorManager;
+
+import com.example.androidventure.R;
 
 /**
  * Manages game state persistence using SharedPreferences
  */
 public class GameStateManager {
-    private static final String PREF_NAME = "AndroidVenturePrefs";
-    private static final String KEY_LEVEL_COMPLETED_PREFIX = "level_completed_";
-    private static final String KEY_LEVEL_SCORE_PREFIX = "level_score_";
-    private static final String KEY_CURRENT_LEVEL = "current_level";
-    private static final String KEY_TOTAL_SCORE = "total_score";
+    private static final String PREF_NAME = "GameState";
+    private static final String KEY_LEVEL_COMPLETED = "level_completed_";
+    private static final String KEY_LEVEL_SCORE = "level_score_";
+    private static final String KEY_TOTAL_STARS = "total_stars";
+    private static final String KEY_HIGH_SCORE = "high_score";
     private static final String KEY_TUTORIAL_COMPLETED = "tutorial_completed";
 
     private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
+    private Context context;
+    private SoundPool soundPool;
+    private int buttonClickSound;
+    private int levelCompleteSound;
+    private Vibrator vibrator;
 
     /**
      * Constructor for GameStateManager
@@ -23,8 +34,60 @@ public class GameStateManager {
      * @param context Application context
      */
     public GameStateManager(Context context) {
-        preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        editor = preferences.edit();
+        this.context = context;
+        this.preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        initializeAudio();
+        initializeVibration();
+    }
+
+    private void initializeAudio() {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(5)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        buttonClickSound = soundPool.load(context, R.raw.click, 1);
+        levelCompleteSound = soundPool.load(context, R.raw.level_complete, 1);
+    }
+
+    private void initializeVibration() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            VibratorManager vibratorManager = (VibratorManager) context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
+            vibrator = vibratorManager.getDefaultVibrator();
+        } else {
+            vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        }
+    }
+
+    public void playButtonClick() {
+        if (preferences.getBoolean("sound_enabled", true)) {
+            soundPool.play(buttonClickSound, 1.0f, 1.0f, 1, 0, 1.0f);
+        }
+        if (preferences.getBoolean("vibration_enabled", true) && vibrator != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(50);
+            }
+        }
+    }
+
+    public void playLevelComplete() {
+        if (preferences.getBoolean("sound_enabled", true)) {
+            soundPool.play(levelCompleteSound, 1.0f, 1.0f, 1, 0, 1.0f);
+        }
+        if (preferences.getBoolean("vibration_enabled", true) && vibrator != null) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(200);
+            }
+        }
     }
 
     /**
@@ -34,7 +97,7 @@ public class GameStateManager {
      * @return true if the level is completed, false otherwise
      */
     public boolean isLevelCompleted(int levelId) {
-        return preferences.getBoolean(KEY_LEVEL_COMPLETED_PREFIX + levelId, false);
+        return preferences.getBoolean(KEY_LEVEL_COMPLETED + levelId, false);
     }
 
     /**
@@ -44,8 +107,7 @@ public class GameStateManager {
      * @param completed Completion status
      */
     public void setLevelCompleted(int levelId, boolean completed) {
-        editor.putBoolean(KEY_LEVEL_COMPLETED_PREFIX + levelId, completed);
-        editor.apply();
+        preferences.edit().putBoolean(KEY_LEVEL_COMPLETED + levelId, completed).apply();
     }
 
     /**
@@ -55,7 +117,7 @@ public class GameStateManager {
      * @return Score (0-3 stars)
      */
     public int getLevelScore(int levelId) {
-        return preferences.getInt(KEY_LEVEL_SCORE_PREFIX + levelId, 0);
+        return preferences.getInt(KEY_LEVEL_SCORE + levelId, 0);
     }
 
     /**
@@ -65,62 +127,48 @@ public class GameStateManager {
      * @param score Score (0-3 stars)
      */
     public void setLevelScore(int levelId, int score) {
-        editor.putInt(KEY_LEVEL_SCORE_PREFIX + levelId, score);
-        editor.apply();
+        preferences.edit().putInt(KEY_LEVEL_SCORE + levelId, score).apply();
+        updateHighScore(score);
+    }
 
-        // Update total score
-        int totalScore = getTotalScore();
-        totalScore += score;
-        setTotalScore(totalScore);
+    /**
+     * Get the total stars across all levels
+     *
+     * @return Total stars
+     */
+    public int getTotalStars() {
+        return preferences.getInt(KEY_TOTAL_STARS, 0);
+    }
 
-        // If this level is completed with at least 1 star, unlock the next level
-        if (score > 0) {
-            setLevelCompleted(levelId, true);
+    /**
+     * Add stars to the total stars
+     *
+     * @param stars Stars to add
+     */
+    public void addStars(int stars) {
+        int currentStars = getTotalStars();
+        preferences.edit().putInt(KEY_TOTAL_STARS, currentStars + stars).apply();
+    }
+
+    /**
+     * Get the high score
+     *
+     * @return High score
+     */
+    public int getHighScore() {
+        return preferences.getInt(KEY_HIGH_SCORE, 0);
+    }
+
+    private void updateHighScore(int newScore) {
+        int currentHighScore = getHighScore();
+        if (newScore > currentHighScore) {
+            preferences.edit().putInt(KEY_HIGH_SCORE, newScore).apply();
         }
     }
 
     /**
-     * Get the current level
-     *
-     * @return Current level identifier
-     */
-    public int getCurrentLevel() {
-        return preferences.getInt(KEY_CURRENT_LEVEL, 1);
-    }
-
-    /**
-     * Set the current level
-     *
-     * @param levelId Level identifier
-     */
-    public void setCurrentLevel(int levelId) {
-        editor.putInt(KEY_CURRENT_LEVEL, levelId);
-        editor.apply();
-    }
-
-    /**
-     * Get the total score across all levels
-     *
-     * @return Total score
-     */
-    public int getTotalScore() {
-        return preferences.getInt(KEY_TOTAL_SCORE, 0);
-    }
-
-    /**
-     * Set the total score
-     *
-     * @param score Total score
-     */
-    public void setTotalScore(int score) {
-        editor.putInt(KEY_TOTAL_SCORE, score);
-        editor.apply();
-    }
-
-    /**
-     * Check if the tutorial has been completed
-     *
-     * @return true if the tutorial is completed, false otherwise
+     * Check if the tutorial is completed
+     * @return true if completed, false otherwise
      */
     public boolean isTutorialCompleted() {
         return preferences.getBoolean(KEY_TUTORIAL_COMPLETED, false);
@@ -128,19 +176,19 @@ public class GameStateManager {
 
     /**
      * Set the tutorial as completed
-     *
      * @param completed Completion status
      */
     public void setTutorialCompleted(boolean completed) {
-        editor.putBoolean(KEY_TUTORIAL_COMPLETED, completed);
-        editor.apply();
+        preferences.edit().putBoolean(KEY_TUTORIAL_COMPLETED, completed).apply();
     }
 
     /**
-     * Reset all game progress
+     * Release resources
      */
-    public void resetProgress() {
-        editor.clear();
-        editor.apply();
+    public void release() {
+        if (soundPool != null) {
+            soundPool.release();
+            soundPool = null;
+        }
     }
 }
