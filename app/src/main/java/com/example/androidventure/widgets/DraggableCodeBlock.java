@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
 import com.example.androidventure.R;
+import com.example.androidventure.utils.SoundManager;
 
 /**
  * Custom view for draggable code blocks in game levels
@@ -21,6 +22,7 @@ public class DraggableCodeBlock extends AppCompatTextView {
     private float lastTouchX, lastTouchY;
     private boolean isDragging = false;
     private String blockName;
+    private SoundManager soundManager;
 
     public DraggableCodeBlock(Context context) {
         super(context);
@@ -55,6 +57,9 @@ public class DraggableCodeBlock extends AppCompatTextView {
 
         // Add drop shadow
         setElevation(8);
+
+        // Initialize sound manager
+        soundManager = SoundManager.getInstance(getContext());
     }
 
     @Override
@@ -67,6 +72,9 @@ public class DraggableCodeBlock extends AppCompatTextView {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 isDragging = true;
+
+                // Play drag start sound
+                soundManager.playSound(SoundManager.SOUND_DRAG);
 
                 // Record initial touch point
                 lastTouchX = event.getRawX();
@@ -103,6 +111,9 @@ public class DraggableCodeBlock extends AppCompatTextView {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 isDragging = false;
+
+                // Play drop sound
+                soundManager.playSound(SoundManager.SOUND_DROP);
 
                 // Return to normal size
                 animate().scaleX(1f).scaleY(1f).setDuration(100).start();
