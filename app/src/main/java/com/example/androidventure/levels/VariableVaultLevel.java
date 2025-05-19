@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,12 +15,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.androidventure.R;
 import com.example.androidventure.utils.GameStateManager;
-import com.example.androidventure.widgets.DraggableCodeBlock;
 import com.example.androidventure.utils.SoundManager;
+import com.example.androidventure.widgets.DraggableCodeBlock;
 
-public class UiBuilderLevel extends AppCompatActivity {
+public class VariableVaultLevel extends AppCompatActivity {
 
-    private static final int LEVEL_ID = 2;
+    private static final int LEVEL_ID = 4;
     private static final int MAX_SCORE = 3;
 
     private ConstraintLayout gameArea;
@@ -31,15 +30,17 @@ public class UiBuilderLevel extends AppCompatActivity {
     private Button hintButton;
     private GameStateManager gameStateManager;
 
-    private DraggableCodeBlock buttonBlock;
-    private DraggableCodeBlock textViewBlock;
-    private DraggableCodeBlock editTextBlock;
-    private DraggableCodeBlock recyclerViewBlock;
-    private DraggableCodeBlock imageViewBlock;
+    // Code blocks
+    private DraggableCodeBlock stringBlock;
+    private DraggableCodeBlock intBlock;
+    private DraggableCodeBlock booleanBlock;
+    private DraggableCodeBlock floatBlock;
 
-    private View targetEditText;
-    private View targetRecyclerView;
-    private View targetImageView;
+    // Drop targets
+    private View targetString;
+    private View targetInt;
+    private View targetBoolean;
+    private View targetFloat;
 
     private int attempts = 0;
     private int score = MAX_SCORE;
@@ -51,15 +52,24 @@ public class UiBuilderLevel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ui_builder);
+        setContentView(R.layout.activity_variable_vault_level);
 
+        // Initialize game state manager
         gameStateManager = new GameStateManager(this);
 
+        // Initialize SoundManager
+        SoundManager.getInstance(this);
+
+        // Initialize UI components
         initializeUI();
 
+        // Setup draggable blocks
         setupDraggableBlocks();
+
+        // Setup buttons
         setupButtons();
 
+        // Show tutorial if this is first time
         if (!gameStateManager.isTutorialCompleted()) {
             showTutorial();
         }
@@ -75,45 +85,42 @@ public class UiBuilderLevel extends AppCompatActivity {
         hintOverlay = findViewById(R.id.hint_overlay);
         hintText = findViewById(R.id.hint_text);
 
-        levelTitle.setText(R.string.level_2_name);
+        // Set level name
+        levelTitle.setText(R.string.level_4_name);
 
-        instructionText.setText("Drag the UI components into the correct layout.");
+        // Set instruction text
+        instructionText.setText("Match the variables with their correct data types");
     }
 
     private void setupDraggableBlocks() {
-        buttonBlock = findViewById(R.id.block_button);
-        textViewBlock = findViewById(R.id.block_textview);
-        editTextBlock = findViewById(R.id.block_edittext);
-        recyclerViewBlock = findViewById(R.id.block_recyclerview);
-        imageViewBlock = findViewById(R.id.block_imageview);
+        stringBlock = findViewById(R.id.block_string);
+        intBlock = findViewById(R.id.block_int);
+        booleanBlock = findViewById(R.id.block_boolean);
+        floatBlock = findViewById(R.id.block_float);
 
         // Setup block data and listeners
-        buttonBlock.setBlockName("Button");
-        textViewBlock.setBlockName("TextView");
-        editTextBlock.setBlockName("EditText");
-        recyclerViewBlock.setBlockName("RecyclerView");
-        imageViewBlock.setBlockName("ImageView");
+        stringBlock.setBlockName("name = \"John\"");
+        intBlock.setBlockName("age = 25");
+        booleanBlock.setBlockName("isActive = true");
+        floatBlock.setBlockName("price = 19.99f");
 
         // Reset positions to original places
         resetBlockPositions();
     }
 
     private void resetBlockPositions() {
-        // Position blocks in a randomized order at the bottom area
-        buttonBlock.setX(100);
-        buttonBlock.setY(gameArea.getHeight() - 10);
+        // Position blocks in a randomized order
+        booleanBlock.setX(100);
+        booleanBlock.setY(gameArea.getHeight() - 300);
 
-        textViewBlock.setX(100);
-        textViewBlock.setY(gameArea.getHeight() - 500);
+        floatBlock.setX(300);
+        floatBlock.setY(gameArea.getHeight() - 200);
 
-        editTextBlock.setX(50);
-        editTextBlock.setY(gameArea.getHeight() - 500);
+        stringBlock.setX(200);
+        stringBlock.setY(gameArea.getHeight() - 100);
 
-        recyclerViewBlock.setX(100);
-        recyclerViewBlock.setY(gameArea.getHeight() - 50);
-
-        imageViewBlock.setX(90);
-        imageViewBlock.setY(gameArea.getHeight() - 300);
+        intBlock.setX(400);
+        intBlock.setY(gameArea.getHeight() - 150);
     }
 
     private void setupButtons() {
@@ -145,11 +152,11 @@ public class UiBuilderLevel extends AppCompatActivity {
 
     private void showTutorial() {
         // Simple tutorial that shows how to drag blocks
-        Toast.makeText(this, "Drag the UI components to match them with their icons", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Drag the variable blocks to match them with their data types", Toast.LENGTH_LONG).show();
 
         // Animate a block to simulate dragging
-        ObjectAnimator animation = ObjectAnimator.ofFloat(buttonBlock, "translationY",
-                buttonBlock.getY(), buttonBlock.getY() - 200, buttonBlock.getY());
+        ObjectAnimator animation = ObjectAnimator.ofFloat(stringBlock, "translationY",
+                stringBlock.getY(), stringBlock.getY() - 200, stringBlock.getY());
         animation.setDuration(2000);
         animation.start();
 
@@ -159,37 +166,33 @@ public class UiBuilderLevel extends AppCompatActivity {
 
     private void showHint() {
         // Show animated hint overlay
-        hintText.setText("Remember: Button for actions, TextView for text display, EditText for user input, RecyclerView for lists, and ImageView for images.");
+        hintText.setText("Remember: String for text, int for whole numbers, boolean for true/false, and float for decimal numbers.");
         hintOverlay.setVisibility(View.VISIBLE);
         hintOverlay.setAlpha(0f);
         hintOverlay.animate().alpha(1f).setDuration(400).start();
         // Hide after 3 seconds
         new Handler().postDelayed(() -> hintOverlay.animate().alpha(0f).setDuration(400).withEndAction(() -> hintOverlay.setVisibility(View.GONE)).start(), 3000);
-        // Highlight button block briefly
-        ObjectAnimator highlight = ObjectAnimator.ofFloat(buttonBlock, "alpha", 1f, 0.5f, 1f);
+        // Highlight string block briefly
+        ObjectAnimator highlight = ObjectAnimator.ofFloat(stringBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();
     }
 
     private void checkAnswer() {
         attempts++;
-
-        // Check if blocks are in correct positions
-        boolean correct = isBlockNearTarget(buttonBlock, findViewById(R.id.target_button)) &&
-                isBlockNearTarget(textViewBlock, findViewById(R.id.target_textview)) &&
-                isBlockNearTarget(editTextBlock, findViewById(R.id.target_edittext)) &&
-                isBlockNearTarget(recyclerViewBlock, findViewById(R.id.target_recyclerview)) &&
-                isBlockNearTarget(imageViewBlock, findViewById(R.id.target_imageview));
+        boolean correct = isBlockNearTarget(stringBlock, findViewById(R.id.target_string)) &&
+                isBlockNearTarget(intBlock, findViewById(R.id.target_int)) &&
+                isBlockNearTarget(booleanBlock, findViewById(R.id.target_boolean)) &&
+                isBlockNearTarget(floatBlock, findViewById(R.id.target_float));
 
         if (correct) {
             // Play success sound
             SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
             // Animate blocks with bounce and glow
-            animateBlockSuccess(buttonBlock);
-            animateBlockSuccess(textViewBlock);
-            animateBlockSuccess(editTextBlock);
-            animateBlockSuccess(recyclerViewBlock);
-            animateBlockSuccess(imageViewBlock);
+            animateBlockSuccess(stringBlock);
+            animateBlockSuccess(intBlock);
+            animateBlockSuccess(booleanBlock);
+            animateBlockSuccess(floatBlock);
             completeLevelSuccess();
         } else {
             // Reduce score for each failed attempt after the first
@@ -253,4 +256,4 @@ public class UiBuilderLevel extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
-}
+} 

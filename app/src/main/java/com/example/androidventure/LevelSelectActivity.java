@@ -33,26 +33,26 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
         setContentView(R.layout.activity_level_select);
         Toast.makeText(this, "LevelSelectActivity launched!", Toast.LENGTH_SHORT).show();
 
-        // Initialize UI components
+  
         levelRecyclerView = findViewById(R.id.level_recycler_view);
         backButton = findViewById(R.id.back_button);
         titleTextView = findViewById(R.id.level_select_title);
 
-        // Set up game state manager
+
         gameStateManager = new GameStateManager(this);
 
-        // Set up RecyclerView with GridLayoutManager
+  
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         levelRecyclerView.setLayoutManager(gridLayoutManager);
 
-        // Initialize level data
+
         initializeLevels();
 
-        // Set up adapter
+    
         levelAdapter = new LevelAdapter(levels, this);
         levelRecyclerView.setAdapter(levelAdapter);
 
-        // Set up back button
+   
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +64,7 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
     @Override
     protected void onResume() {
         super.onResume();
-        // Update level unlock status
+     
         updateLevelStatus();
     }
 
@@ -123,18 +123,18 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
     }
 
     private void updateLevelStatus() {
-        // Load saved progress
+       
         for (Level level : levels) {
             level.setCompleted(gameStateManager.isLevelCompleted(level.getId()));
             level.setScore(gameStateManager.getLevelScore(level.getId()));
 
-            // A level is unlocked if it's the first level or the previous level is completed
+        
             if (level.getId() > 1) {
                 level.setUnlocked(gameStateManager.isLevelCompleted(level.getId() - 1));
             }
         }
 
-        // Notify adapter of data change
+     
         levelAdapter.notifyDataSetChanged();
     }
 
@@ -149,7 +149,7 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
                 startActivity(intent);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-                // Handle error - level not found
+                
             }
         }
     }

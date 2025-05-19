@@ -5,9 +5,9 @@ import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,12 +16,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.androidventure.R;
 import com.example.androidventure.utils.GameStateManager;
-import com.example.androidventure.widgets.DraggableCodeBlock;
 import com.example.androidventure.utils.SoundManager;
+import com.example.androidventure.widgets.DraggableCodeBlock;
 
-public class UiBuilderLevel extends AppCompatActivity {
+public class IntentGateLevel extends AppCompatActivity {
 
-    private static final int LEVEL_ID = 2;
+    private static final int LEVEL_ID = 3;
     private static final int MAX_SCORE = 3;
 
     private ConstraintLayout gameArea;
@@ -31,15 +31,15 @@ public class UiBuilderLevel extends AppCompatActivity {
     private Button hintButton;
     private GameStateManager gameStateManager;
 
-    private DraggableCodeBlock buttonBlock;
-    private DraggableCodeBlock textViewBlock;
-    private DraggableCodeBlock editTextBlock;
-    private DraggableCodeBlock recyclerViewBlock;
-    private DraggableCodeBlock imageViewBlock;
+    // Code blocks
+    private DraggableCodeBlock intentBlock;
+    private DraggableCodeBlock contextBlock;
+    private DraggableCodeBlock activityBlock;
 
-    private View targetEditText;
-    private View targetRecyclerView;
-    private View targetImageView;
+    // Drop targets
+    private View targetIntent;
+    private View targetContext;
+    private View targetActivity;
 
     private int attempts = 0;
     private int score = MAX_SCORE;
@@ -51,13 +51,20 @@ public class UiBuilderLevel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ui_builder);
+        setContentView(R.layout.activity_intent_gate_level);
 
+        // Initialize game state manager
         gameStateManager = new GameStateManager(this);
 
+        // Initialize SoundManager
+        SoundManager.getInstance(this);
+
+        // Initialize UI components
         initializeUI();
 
+        // Setup draggable blocks
         setupDraggableBlocks();
+
         setupButtons();
 
         if (!gameStateManager.isTutorialCompleted()) {
@@ -75,45 +82,37 @@ public class UiBuilderLevel extends AppCompatActivity {
         hintOverlay = findViewById(R.id.hint_overlay);
         hintText = findViewById(R.id.hint_text);
 
-        levelTitle.setText(R.string.level_2_name);
+        // Set level name
+        levelTitle.setText(R.string.level_3_name);
 
-        instructionText.setText("Drag the UI components into the correct layout.");
+        // Set instruction text
+        instructionText.setText("Arrange the Intent code blocks in the correct order to launch a new activity.");
     }
 
     private void setupDraggableBlocks() {
-        buttonBlock = findViewById(R.id.block_button);
-        textViewBlock = findViewById(R.id.block_textview);
-        editTextBlock = findViewById(R.id.block_edittext);
-        recyclerViewBlock = findViewById(R.id.block_recyclerview);
-        imageViewBlock = findViewById(R.id.block_imageview);
+        intentBlock = findViewById(R.id.block_intent);
+        contextBlock = findViewById(R.id.block_context);
+        activityBlock = findViewById(R.id.block_activity);
 
         // Setup block data and listeners
-        buttonBlock.setBlockName("Button");
-        textViewBlock.setBlockName("TextView");
-        editTextBlock.setBlockName("EditText");
-        recyclerViewBlock.setBlockName("RecyclerView");
-        imageViewBlock.setBlockName("ImageView");
+        intentBlock.setBlockName("Intent intent = new Intent()");
+        contextBlock.setBlockName("this, SecondActivity.class");
+        activityBlock.setBlockName("startActivity(intent)");
 
         // Reset positions to original places
         resetBlockPositions();
     }
 
     private void resetBlockPositions() {
-        // Position blocks in a randomized order at the bottom area
-        buttonBlock.setX(100);
-        buttonBlock.setY(gameArea.getHeight() - 10);
+        // Position blocks in a randomized order
+        intentBlock.setX(100);
+        intentBlock.setY(gameArea.getHeight() - 300);
 
-        textViewBlock.setX(100);
-        textViewBlock.setY(gameArea.getHeight() - 500);
+        contextBlock.setX(300);
+        contextBlock.setY(gameArea.getHeight() - 200);
 
-        editTextBlock.setX(50);
-        editTextBlock.setY(gameArea.getHeight() - 500);
-
-        recyclerViewBlock.setX(100);
-        recyclerViewBlock.setY(gameArea.getHeight() - 50);
-
-        imageViewBlock.setX(90);
-        imageViewBlock.setY(gameArea.getHeight() - 300);
+        activityBlock.setX(200);
+        activityBlock.setY(gameArea.getHeight() - 100);
     }
 
     private void setupButtons() {
@@ -145,11 +144,11 @@ public class UiBuilderLevel extends AppCompatActivity {
 
     private void showTutorial() {
         // Simple tutorial that shows how to drag blocks
-        Toast.makeText(this, "Drag the UI components to match them with their icons", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Drag the code blocks to arrange them in the correct order", Toast.LENGTH_LONG).show();
 
         // Animate a block to simulate dragging
-        ObjectAnimator animation = ObjectAnimator.ofFloat(buttonBlock, "translationY",
-                buttonBlock.getY(), buttonBlock.getY() - 200, buttonBlock.getY());
+        ObjectAnimator animation = ObjectAnimator.ofFloat(intentBlock, "translationY",
+                intentBlock.getY(), intentBlock.getY() - 200, intentBlock.getY());
         animation.setDuration(2000);
         animation.start();
 
@@ -159,37 +158,31 @@ public class UiBuilderLevel extends AppCompatActivity {
 
     private void showHint() {
         // Show animated hint overlay
-        hintText.setText("Remember: Button for actions, TextView for text display, EditText for user input, RecyclerView for lists, and ImageView for images.");
+        hintText.setText("Remember: First create the Intent, then specify the context and activity, finally start the activity.");
         hintOverlay.setVisibility(View.VISIBLE);
         hintOverlay.setAlpha(0f);
         hintOverlay.animate().alpha(1f).setDuration(400).start();
         // Hide after 3 seconds
         new Handler().postDelayed(() -> hintOverlay.animate().alpha(0f).setDuration(400).withEndAction(() -> hintOverlay.setVisibility(View.GONE)).start(), 3000);
-        // Highlight button block briefly
-        ObjectAnimator highlight = ObjectAnimator.ofFloat(buttonBlock, "alpha", 1f, 0.5f, 1f);
+        // Highlight intent block briefly
+        ObjectAnimator highlight = ObjectAnimator.ofFloat(intentBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();
     }
 
     private void checkAnswer() {
         attempts++;
-
-        // Check if blocks are in correct positions
-        boolean correct = isBlockNearTarget(buttonBlock, findViewById(R.id.target_button)) &&
-                isBlockNearTarget(textViewBlock, findViewById(R.id.target_textview)) &&
-                isBlockNearTarget(editTextBlock, findViewById(R.id.target_edittext)) &&
-                isBlockNearTarget(recyclerViewBlock, findViewById(R.id.target_recyclerview)) &&
-                isBlockNearTarget(imageViewBlock, findViewById(R.id.target_imageview));
+        boolean correct = isBlockNearTarget(intentBlock, findViewById(R.id.target_intent)) &&
+                isBlockNearTarget(contextBlock, findViewById(R.id.target_context)) &&
+                isBlockNearTarget(activityBlock, findViewById(R.id.target_activity));
 
         if (correct) {
             // Play success sound
             SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
             // Animate blocks with bounce and glow
-            animateBlockSuccess(buttonBlock);
-            animateBlockSuccess(textViewBlock);
-            animateBlockSuccess(editTextBlock);
-            animateBlockSuccess(recyclerViewBlock);
-            animateBlockSuccess(imageViewBlock);
+            animateBlockSuccess(intentBlock);
+            animateBlockSuccess(contextBlock);
+            animateBlockSuccess(activityBlock);
             completeLevelSuccess();
         } else {
             // Reduce score for each failed attempt after the first
@@ -253,4 +246,4 @@ public class UiBuilderLevel extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
-}
+} 

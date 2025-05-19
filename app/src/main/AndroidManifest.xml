@@ -18,6 +18,12 @@
         <activity
             android:name=".levels.ActivityForestLevel"
             android:exported="false" />
+        <activity
+            android:name=".levels.IntentGateLevel"
+            android:exported="false" />
+        <activity
+            android:name=".levels.VariableVaultLevel"
+            android:exported="false" />
 
         <activity
             android:name=".LevelSelectActivity"

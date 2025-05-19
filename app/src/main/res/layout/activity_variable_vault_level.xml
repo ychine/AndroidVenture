@@ -5,14 +5,14 @@
     android:id="@+id/game_area"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/level2_primary"
-    tools:context=".levels.UiBuilderLevel">
+    android:background="@color/level4_primary"
+    tools:context=".levels.VariableVaultLevel">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/level2_primary"
+        android:background="@color/level4_primary"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
                 android:id="@+id/level_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/level_2_name"
+                android:text="@string/level_4_name"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -57,7 +57,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:text="Drag the UI components into the correct layout."
+        android:text="Match the variables with their correct data types"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,18 +65,21 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <!-- Target drop areas for code blocks -->
-    <ImageView
-        android:id="@+id/button_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/buttonicon"
+    <TextView
+        android:id="@+id/string_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="String"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/target_button"
-        app:layout_constraintTop_toTopOf="@+id/target_button"
-        app:layout_constraintBottom_toBottomOf="@+id/target_button" />
+        app:layout_constraintEnd_toStartOf="@+id/target_string"
+        app:layout_constraintTop_toTopOf="@+id/target_string"
+        app:layout_constraintBottom_toBottomOf="@+id/target_string" />
 
     <View
-        android:id="@+id/target_button"
+        android:id="@+id/target_string"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_marginTop="32dp"
@@ -86,18 +89,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instruction_text" />
 
-    <ImageView
-        android:id="@+id/textview_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/tviewicon"
+    <TextView
+        android:id="@+id/int_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="int"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/target_textview"
-        app:layout_constraintTop_toTopOf="@+id/target_textview"
-        app:layout_constraintBottom_toBottomOf="@+id/target_textview" />
+        app:layout_constraintEnd_toStartOf="@+id/target_int"
+        app:layout_constraintTop_toTopOf="@+id/target_int"
+        app:layout_constraintBottom_toBottomOf="@+id/target_int" />
 
     <View
-        android:id="@+id/target_textview"
+        android:id="@+id/target_int"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
@@ -105,10 +111,23 @@
         android:background="@drawable/target_area"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/target_button" />
+        app:layout_constraintTop_toBottomOf="@+id/target_string" />
+
+    <TextView
+        android:id="@+id/boolean_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="boolean"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/target_boolean"
+        app:layout_constraintTop_toTopOf="@+id/target_boolean"
+        app:layout_constraintBottom_toBottomOf="@+id/target_boolean" />
 
     <View
-        android:id="@+id/target_edittext"
+        android:id="@+id/target_boolean"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
@@ -116,10 +135,23 @@
         android:background="@drawable/target_area"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/target_textview" />
+        app:layout_constraintTop_toBottomOf="@+id/target_int" />
+
+    <TextView
+        android:id="@+id/float_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="float"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/target_float"
+        app:layout_constraintTop_toTopOf="@+id/target_float"
+        app:layout_constraintBottom_toBottomOf="@+id/target_float" />
 
     <View
-        android:id="@+id/target_recyclerview"
+        android:id="@+id/target_float"
         android:layout_width="200dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
@@ -127,68 +159,43 @@
         android:background="@drawable/target_area"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/target_edittext" />
-
-    <View
-        android:id="@+id/target_imageview"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
-        android:alpha="0.3"
-        android:background="@drawable/target_area"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/target_recyclerview" />
+        app:layout_constraintTop_toBottomOf="@+id/target_boolean" />
 
     <!-- Draggable code blocks -->
     <com.example.androidventure.widgets.DraggableCodeBlock
-        android:id="@+id/block_button"
+        android:id="@+id/block_string"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/target_textview"
+        app:layout_constraintTop_toBottomOf="@+id/target_float"
         android:layout_marginTop="32dp" />
 
     <com.example.androidventure.widgets.DraggableCodeBlock
-        android:id="@+id/block_textview"
+        android:id="@+id/block_int"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/block_button"
+        app:layout_constraintTop_toBottomOf="@+id/block_string"
         android:layout_marginTop="8dp" />
 
     <com.example.androidventure.widgets.DraggableCodeBlock
-        android:id="@+id/block_edittext"
+        android:id="@+id/block_boolean"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:text="EditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/block_textview"
+        app:layout_constraintTop_toBottomOf="@+id/block_int"
         android:layout_marginTop="8dp" />
 
     <com.example.androidventure.widgets.DraggableCodeBlock
-        android:id="@+id/block_recyclerview"
+        android:id="@+id/block_float"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:text="RecyclerView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/block_edittext"
-        android:layout_marginTop="8dp" />
-
-    <com.example.androidventure.widgets.DraggableCodeBlock
-        android:id="@+id/block_imageview"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:text="ImageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/block_recyclerview"
+        app:layout_constraintTop_toBottomOf="@+id/block_boolean"
         android:layout_marginTop="8dp" />
 
     <!-- Action buttons -->
@@ -242,45 +249,15 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@android:drawable/ic_dialog_info"
-            android:tint="@color/level2_primary" />
+            android:tint="@color/level4_primary" />
         <TextView
             android:id="@+id/hint_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="@color/level2_primary"
+            android:textColor="@color/level4_primary"
             android:textSize="15sp"
             android:text="Hint goes here"/>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/edittext_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/edittexticon"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/target_edittext"
-        app:layout_constraintTop_toTopOf="@+id/target_edittext"
-        app:layout_constraintBottom_toBottomOf="@+id/target_edittext" />
-
-    <ImageView
-        android:id="@+id/recyclerview_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/recviewicon"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/target_recyclerview"
-        app:layout_constraintTop_toTopOf="@+id/target_recyclerview"
-        app:layout_constraintBottom_toBottomOf="@+id/target_recyclerview" />
-
-    <ImageView
-        android:id="@+id/imageview_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/imageviewicon"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/target_imageview"
-        app:layout_constraintTop_toTopOf="@+id/target_imageview"
-        app:layout_constraintBottom_toBottomOf="@+id/target_imageview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout> 

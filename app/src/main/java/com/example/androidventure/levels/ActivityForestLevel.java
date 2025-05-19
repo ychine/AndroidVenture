@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.androidventure.R;
 import com.example.androidventure.utils.GameStateManager;
+import com.example.androidventure.utils.SoundManager;
 import com.example.androidventure.widgets.DraggableCodeBlock;
 
 public class ActivityForestLevel extends AppCompatActivity {
@@ -62,6 +64,9 @@ public class ActivityForestLevel extends AppCompatActivity {
         // Initialize game state manager
         gameStateManager = new GameStateManager(this);
 
+        // Initialize SoundManager
+        SoundManager.getInstance(this);
+
         // Initialize UI components
         initializeUI();
 
@@ -90,7 +95,7 @@ public class ActivityForestLevel extends AppCompatActivity {
         instructionText = findViewById(R.id.instruction_text);
         checkButton = findViewById(R.id.check_button);
         hintButton = findViewById(R.id.hint_button);
-        lifecycleMapView = findViewById(R.id.lifecycle_map);
+
 
         // Set level name
         levelTitle.setText(R.string.level_1_name);
@@ -212,6 +217,7 @@ public class ActivityForestLevel extends AppCompatActivity {
         ObjectAnimator highlight = ObjectAnimator.ofFloat(onCreateBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();
+        SoundManager.getInstance(this).playSound(SoundManager.SOUND_CLICK);
     }
 
     private void checkAnswer() {
@@ -236,6 +242,7 @@ public class ActivityForestLevel extends AppCompatActivity {
             if (attempts > 1 && score > 1) {
                 score--;
             }
+            SoundManager.getInstance(this).playSound(SoundManager.SOUND_FAILURE);
             Toast.makeText(this, "Not quite right. Try again!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -278,7 +285,11 @@ public class ActivityForestLevel extends AppCompatActivity {
 
     private void completeLevelSuccess() {
         // Display success message
+        SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
         Toast.makeText(this, R.string.level_complete, Toast.LENGTH_LONG).show();
+
+        // Log sound play attempt
+        Log.d("ActivityForestLevel", "Attempting to play success sound");
 
         // Save progress
         gameStateManager.setLevelCompleted(LEVEL_ID, true);
