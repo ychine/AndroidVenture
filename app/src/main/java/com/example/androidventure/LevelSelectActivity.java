@@ -124,6 +124,18 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
                 0,
                 "com.example.androidventure.levels.AsyncAbyssLevel"
         ));
+
+        // Level 6: Notification Anatomy
+        levels.add(new Level(
+                6,
+                getString(R.string.level_6_name),
+                getString(R.string.level_6_description),
+                R.drawable.level6_icon,
+                false,
+                false,
+                0,
+                "com.example.androidventure.levels.NotificationAnatomyLevel"
+        ));
     }
 
     private void updateLevelStatus() {

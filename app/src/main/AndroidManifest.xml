@@ -27,6 +27,9 @@
         <activity
             android:name=".levels.AsyncAbyssLevel"
             android:exported="false" />
+        <activity
+            android:name=".levels.NotificationAnatomyLevel"
+            android:exported="false" />
 
         <activity
             android:name=".LevelSelectActivity"

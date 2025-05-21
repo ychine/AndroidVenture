@@ -30,13 +30,11 @@ public class AsyncAbyssLevel extends AppCompatActivity {
     private Button hintButton;
     private GameStateManager gameStateManager;
 
-    // Code blocks for async operations
     private DraggableCodeBlock asyncTaskBlock;
     private DraggableCodeBlock coroutineBlock;
     private DraggableCodeBlock handlerBlock;
     private DraggableCodeBlock rxJavaBlock;
 
-    // Drop targets
     private View targetAsyncTask;
     private View targetCoroutine;
     private View targetHandler;
@@ -126,10 +124,9 @@ public class AsyncAbyssLevel extends AppCompatActivity {
     }
 
     private void showTutorial() {
-        // Simple tutorial that shows how to drag blocks
+
         Toast.makeText(this, "Drag the async operations to match them with their best use cases", Toast.LENGTH_LONG).show();
 
-        // Animate a block to simulate dragging
         ObjectAnimator animation = ObjectAnimator.ofFloat(asyncTaskBlock, "translationY",
                 asyncTaskBlock.getY(), asyncTaskBlock.getY() - 200, asyncTaskBlock.getY());
         animation.setDuration(2000);
@@ -150,11 +147,9 @@ public class AsyncAbyssLevel extends AppCompatActivity {
         hintOverlay.setAlpha(0f);
         hintOverlay.animate().alpha(1f).setDuration(400).start();
 
-        // Hide after 3 seconds
+
         new Handler().postDelayed(() -> hintOverlay.animate().alpha(0f).setDuration(400)
                 .withEndAction(() -> hintOverlay.setVisibility(View.GONE)).start(), 3000);
-
-        // Highlight asyncTask block briefly
         ObjectAnimator highlight = ObjectAnimator.ofFloat(asyncTaskBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();

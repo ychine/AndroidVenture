@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_area"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/level6_primary"
+    tools:context=".levels.NotificationAnatomyLevel">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/level6_primary"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@android:color/white" />
+
+            <TextView
+                android:id="@+id/level_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/level_6_name"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/instruction_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:text="Match the notification components with their correct positions"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <ImageView
+        android:id="@+id/notification_anatomy_image"
+        android:layout_width="386dp"
+        android:layout_height="144dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/notificationanatomy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/instruction_text" />
+
+    <!-- Target Areas -->
+    <View
+        android:id="@+id/target_small_icon"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:alpha="0.3"
+        android:background="@drawable/target_area"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notification_anatomy_image" />
+
+    <View
+        android:id="@+id/target_app_name"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.3"
+        android:background="@drawable/target_area"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/target_small_icon" />
+
+    <View
+        android:id="@+id/target_time_stamp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.3"
+        android:background="@drawable/target_area"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/target_app_name" />
+
+    <View
+        android:id="@+id/target_large_icon"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.3"
+        android:background="@drawable/target_area"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/target_time_stamp" />
+
+    <View
+        android:id="@+id/target_title"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.3"
+        android:background="@drawable/target_area"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/target_large_icon" />
+
+    <View
+        android:id="@+id/target_text"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:alpha="0.3"
+        android:background="@drawable/target_area"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/target_title" />
+
+    <!-- Draggable Blocks Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/blocks_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/target_text"
+        app:layout_constraintBottom_toTopOf="@id/check_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Action Buttons -->
+    <Button
+        android:id="@+id/check_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_primary"
+        android:text="Check"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/hint_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_secondary"
+        android:text="Hint"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Confetti overlay -->
+    <View
+        android:id="@+id/confetti_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
+
+    <!-- Modern hint overlay -->
+    <LinearLayout
+        android:id="@+id/hint_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#CCFFFFFF"
+        android:padding="16dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/instruction_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_dialog_info"
+            android:tint="@color/level6_primary" />
+        <TextView
+            android:id="@+id/hint_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/level6_primary"
+            android:textSize="15sp"
+            android:text="Hint goes here"/>
+    </LinearLayout>
+
+    <com.example.androidventure.widgets.DraggableCodeBlock
+        android:id="@+id/block_title"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Title"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="436dp" />
+
+    <com.example.androidventure.widgets.DraggableCodeBlock
+        android:id="@+id/block_small_icon"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Small Icon"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="320dp" />
+
+    <com.example.androidventure.widgets.DraggableCodeBlock
+        android:id="@+id/block_app_name"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="App Name"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="216dp"
+        tools:layout_editor_absoluteY="320dp" />
+
+    <com.example.androidventure.widgets.DraggableCodeBlock
+        android:id="@+id/block_time_stamp"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Time Stamp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="378dp" />
+
+    <com.example.androidventure.widgets.DraggableCodeBlock
+        android:id="@+id/block_large_icon"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Large Icon"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="216dp"
+        tools:layout_editor_absoluteY="378dp" />
+
+    <com.example.androidventure.widgets.DraggableCodeBlock
+        android:id="@+id/block_text"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:text="Text"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="216dp"
+        tools:layout_editor_absoluteY="436dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout> 
