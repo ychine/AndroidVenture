@@ -11,7 +11,6 @@ public class GameProgress {
     private long totalPlayTime; // in milliseconds
 
     public GameProgress() {
-        // Default constructor with initial values
         this.totalStars = 0;
         this.levelsCompleted = 0;
         this.highestLevelUnlocked = 1; // First level always unlocked

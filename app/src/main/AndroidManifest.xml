@@ -24,6 +24,9 @@
         <activity
             android:name=".levels.VariableVaultLevel"
             android:exported="false" />
+        <activity
+            android:name=".levels.AsyncAbyssLevel"
+            android:exported="false" />
 
         <activity
             android:name=".LevelSelectActivity"
@@ -38,6 +41,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

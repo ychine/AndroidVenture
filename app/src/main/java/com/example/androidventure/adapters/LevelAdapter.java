@@ -95,17 +95,14 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHol
          * @param listener Click listener
          */
         public void bind(final Level level, final OnLevelClickListener listener) {
-            // Set level number
+            
             levelNumber.setText(String.valueOf(level.getId()));
 
-            // Set level name and description
             levelName.setText(level.getName());
             levelDescription.setText(level.getDescription());
 
-            // Set level icon and background
             levelIcon.setImageResource(level.getIconResourceId());
 
-            // Set background based on level theme
             switch (level.getId()) {
                 case 1:
                     levelBackground.setBackgroundResource(R.color.level1_primary);
@@ -127,7 +124,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHol
                     break;
             }
 
-            // Set stars based on completion status and score
+           
             if (level.isCompleted()) {
                 levelStars.setRating(level.getScore());
                 levelStars.setVisibility(View.VISIBLE);
@@ -135,13 +132,12 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHol
                 levelStars.setVisibility(View.INVISIBLE);
             }
 
-            // Handle lock/unlock status
+         
             if (level.isUnlocked()) {
-                // Animate lock fade out
+          
                 lockIcon.animate().alpha(0f).setDuration(400).start();
                 overlay.animate().alpha(0.15f).setDuration(400).start();
 
-                // Animate stars if completed
                 if (level.isCompleted()) {
                     levelStars.setVisibility(View.VISIBLE);
                     ObjectAnimator scaleX = ObjectAnimator.ofFloat(levelStars, "scaleX", 0.7f, 1.2f, 1f);
@@ -155,21 +151,20 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelViewHol
                     levelStars.setVisibility(View.INVISIBLE);
                 }
 
-                // Ripple effect on tap
                 itemView.setClickable(true);
                 itemView.setFocusable(true);
                 itemView.setForeground(itemView.getContext().getDrawable(android.R.drawable.list_selector_background));
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Animate ripple
+                    
                         rippleEffect.setPressed(true);
                         new Handler().postDelayed(() -> rippleEffect.setPressed(false), 300);
                         listener.onLevelClick(level);
                     }
                 });
             } else {
-                // Animate lock fade in
+              
                 lockIcon.setVisibility(View.VISIBLE);
                 lockIcon.animate().alpha(1f).setDuration(400).start();
                 overlay.animate().alpha(0.7f).setDuration(400).start();

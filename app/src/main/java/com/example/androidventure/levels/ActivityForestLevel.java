@@ -33,7 +33,6 @@ public class ActivityForestLevel extends AppCompatActivity {
     private ImageView lifecycleMapView;
     private GameStateManager gameStateManager;
 
-    // Lifecycle method blocks
     private DraggableCodeBlock onCreateBlock;
     private DraggableCodeBlock onStartBlock;
     private DraggableCodeBlock onResumeBlock;
@@ -41,7 +40,6 @@ public class ActivityForestLevel extends AppCompatActivity {
     private DraggableCodeBlock onStopBlock;
     private DraggableCodeBlock onDestroyBlock;
 
-    // Drop targets
     private View target1;
     private View target2;
     private View target3;
@@ -61,25 +59,15 @@ public class ActivityForestLevel extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forest_level);
 
-        // Initialize game state manager
+        //initailization
         gameStateManager = new GameStateManager(this);
-
-        // Initialize SoundManager
         SoundManager.getInstance(this);
-
-        // Initialize UI components
         initializeUI();
-
-        // Setup draggable blocks
         setupDraggableBlocks();
-
-        // Setup drop targets
         setupDropTargets();
-
-        // Setup buttons
         setupButtons();
 
-        // Show tutorial if this is first time
+        // tutorial if first time
         if (!gameStateManager.isTutorialCompleted()) {
             showTutorial();
         }
@@ -96,16 +84,12 @@ public class ActivityForestLevel extends AppCompatActivity {
         checkButton = findViewById(R.id.check_button);
         hintButton = findViewById(R.id.hint_button);
 
-
-        // Set level name
         levelTitle.setText(R.string.level_1_name);
-
-        // Set instruction text
         instructionText.setText("Drag the activity lifecycle methods into the correct order");
     }
 
     private void setupDraggableBlocks() {
-        // Initialize draggable blocks
+
         onCreateBlock = findViewById(R.id.block_oncreate);
         onStartBlock = findViewById(R.id.block_onstart);
         onResumeBlock = findViewById(R.id.block_onresume);
@@ -113,7 +97,6 @@ public class ActivityForestLevel extends AppCompatActivity {
         onStopBlock = findViewById(R.id.block_onstop);
         onDestroyBlock = findViewById(R.id.block_ondestroy);
 
-        // Setup block data and listeners
         onCreateBlock.setBlockName("onCreate()");
         onStartBlock.setBlockName("onStart()");
         onResumeBlock.setBlockName("onResume()");
@@ -121,7 +104,6 @@ public class ActivityForestLevel extends AppCompatActivity {
         onStopBlock.setBlockName("onStop()");
         onDestroyBlock.setBlockName("onDestroy()");
 
-        // Reset positions to original places
         resetBlockPositions();
     }
 
@@ -146,7 +128,8 @@ public class ActivityForestLevel extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showHint();
-                // Reduce potential score when hint is used
+
+
                 if (score > 1) {
                     score--;
                 }
@@ -163,12 +146,11 @@ public class ActivityForestLevel extends AppCompatActivity {
     }
 
     private void resetBlockPositions() {
-        // Position blocks in a randomized order at the bottom area
+
         int baseX = 100;
-        int baseY = gameArea.getHeight() - 200;
+        int baseY = gameArea.getHeight() - 300;
 
         if (baseY <= 0) {
-            // If view hasn't been laid out yet, use a reasonable default
             baseY = 1200;
         }
 
@@ -192,28 +174,26 @@ public class ActivityForestLevel extends AppCompatActivity {
     }
 
     private void showTutorial() {
-        // Simple tutorial that shows how to drag blocks
+
         Toast.makeText(this, R.string.tutorial_drag, Toast.LENGTH_LONG).show();
 
-        // Animate a block to simulate dragging
         ObjectAnimator animation = ObjectAnimator.ofFloat(onCreateBlock, "translationY",
                 onCreateBlock.getY(), onCreateBlock.getY() - 200, onCreateBlock.getY());
         animation.setDuration(2000);
         animation.start();
 
-        // Mark tutorial as completed
         gameStateManager.setTutorialCompleted(true);
     }
 
     private void showHint() {
-        // Show animated hint overlay
+    
         hintText.setText("The Android activity lifecycle follows a specific sequence from creation to destruction.");
         hintOverlay.setVisibility(View.VISIBLE);
         hintOverlay.setAlpha(0f);
         hintOverlay.animate().alpha(1f).setDuration(400).start();
-        // Hide after 3 seconds
+      
         new Handler().postDelayed(() -> hintOverlay.animate().alpha(0f).setDuration(400).withEndAction(() -> hintOverlay.setVisibility(View.GONE)).start(), 3000);
-        // Highlight onCreate block briefly
+     
         ObjectAnimator highlight = ObjectAnimator.ofFloat(onCreateBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();
@@ -229,7 +209,7 @@ public class ActivityForestLevel extends AppCompatActivity {
                 isBlockNearTarget(onStopBlock, target5) &&
                 isBlockNearTarget(onDestroyBlock, target6);
         if (correct) {
-            // Animate all blocks with bounce and glow
+           
             animateBlockSuccess(onCreateBlock);
             animateBlockSuccess(onStartBlock);
             animateBlockSuccess(onResumeBlock);
@@ -248,19 +228,17 @@ public class ActivityForestLevel extends AppCompatActivity {
     }
 
     private boolean isBlockNearTarget(View block, View target) {
-        // Check if the block is positioned near enough to the target
+       
         float blockCenterX = block.getX() + block.getWidth() / 2;
         float blockCenterY = block.getY() + block.getHeight() / 2;
 
         float targetCenterX = target.getX() + target.getWidth() / 2;
         float targetCenterY = target.getY() + target.getHeight() / 2;
 
-        // Calculate distance
         float distance = (float) Math.sqrt(
                 Math.pow(blockCenterX - targetCenterX, 2) +
                         Math.pow(blockCenterY - targetCenterY, 2));
 
-        // Block is considered on target if its center is within 50dp of target center
         return distance < 150;
     }
 
@@ -279,29 +257,24 @@ public class ActivityForestLevel extends AppCompatActivity {
         confettiOverlay.setVisibility(View.VISIBLE);
         confettiOverlay.setAlpha(0f);
         confettiOverlay.animate().alpha(1f).setDuration(400).start();
-        // Fade out after 1.5s
+       
         new Handler().postDelayed(() -> confettiOverlay.animate().alpha(0f).setDuration(800).withEndAction(() -> confettiOverlay.setVisibility(View.GONE)).start(), 1500);
     }
 
     private void completeLevelSuccess() {
-        // Display success message
         SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
         Toast.makeText(this, R.string.level_complete, Toast.LENGTH_LONG).show();
 
-        // Log sound play attempt
         Log.d("ActivityForestLevel", "Attempting to play success sound");
 
-        // Save progress
         gameStateManager.setLevelCompleted(LEVEL_ID, true);
         gameStateManager.setLevelScore(LEVEL_ID, score);
 
-        // Show success animation
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(gameArea, "alpha",
                 1f, 0.5f);
         fadeOut.setDuration(1000);
         fadeOut.start();
 
-        // Return to level select after a delay
         gameArea.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -312,7 +285,7 @@ public class ActivityForestLevel extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Show confirmation dialog if level is in progress
+       
         finish();
     }
 }

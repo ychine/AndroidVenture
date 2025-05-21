@@ -13,9 +13,6 @@ import androidx.core.content.ContextCompat;
 import com.example.androidventure.R;
 import com.example.androidventure.utils.SoundManager;
 
-/**
- * Custom view for draggable code blocks in game levels
- */
 public class DraggableCodeBlock extends AppCompatTextView {
 
     private float dX, dY;
@@ -40,14 +37,13 @@ public class DraggableCodeBlock extends AppCompatTextView {
     }
 
     private void init() {
-        // Set text appearance
+        
         setTextColor(Color.BLACK);
         setTextSize(16);
         setAllCaps(false);
         setPadding(24, 12, 24, 12);
         setGravity(android.view.Gravity.CENTER);
 
-        // Create rounded rectangle background
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
         shape.setCornerRadius(16);
@@ -55,10 +51,8 @@ public class DraggableCodeBlock extends AppCompatTextView {
         shape.setStroke(4, ContextCompat.getColor(getContext(), R.color.codeBlockBorder));
         setBackground(shape);
 
-        // Add drop shadow
         setElevation(8);
 
-        // Initialize sound manager
         soundManager = SoundManager.getInstance(getContext());
     }
 
@@ -73,36 +67,28 @@ public class DraggableCodeBlock extends AppCompatTextView {
             case MotionEvent.ACTION_DOWN:
                 isDragging = true;
 
-                // Play drag start sound
                 soundManager.playSound(SoundManager.SOUND_DRAG);
 
-                // Record initial touch point
                 lastTouchX = event.getRawX();
                 lastTouchY = event.getRawY();
 
-                // Record initial view position offset
                 dX = getX() - lastTouchX;
                 dY = getY() - lastTouchY;
 
-                // Bring view to front
                 bringToFront();
 
-                // Increase size slightly to give visual feedback
                 animate().scaleX(1.05f).scaleY(1.05f).setDuration(100).start();
 
                 return true;
 
             case MotionEvent.ACTION_MOVE:
                 if (isDragging) {
-                    // Calculate new position
                     float newX = event.getRawX() + dX;
                     float newY = event.getRawY() + dY;
 
-                    // Apply constraints to keep within parent
                     newX = Math.max(0, Math.min(newX, parent.getWidth() - getWidth()));
                     newY = Math.max(0, Math.min(newY, parent.getHeight() - getHeight()));
 
-                    // Move the view
                     setX(newX);
                     setY(newY);
                 }
@@ -112,10 +98,8 @@ public class DraggableCodeBlock extends AppCompatTextView {
             case MotionEvent.ACTION_CANCEL:
                 isDragging = false;
 
-                // Play drop sound
                 soundManager.playSound(SoundManager.SOUND_DROP);
 
-                // Return to normal size
                 animate().scaleX(1f).scaleY(1f).setDuration(100).start();
 
                 return true;
@@ -123,21 +107,12 @@ public class DraggableCodeBlock extends AppCompatTextView {
         return super.onTouchEvent(event);
     }
 
-    /**
-     * Set the name of this code block
-     *
-     * @param name The method or code block name
-     */
     public void setBlockName(String name) {
         this.blockName = name;
         setText(name);
     }
 
-    /**
-     * Get the name of this code block
-     *
-     * @return The method or code block name
-     */
+
     public String getBlockName() {
         return blockName;
     }

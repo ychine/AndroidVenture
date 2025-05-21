@@ -31,24 +31,18 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
-        Toast.makeText(this, "LevelSelectActivity launched!", Toast.LENGTH_SHORT).show();
-
   
         levelRecyclerView = findViewById(R.id.level_recycler_view);
         backButton = findViewById(R.id.back_button);
         titleTextView = findViewById(R.id.level_select_title);
 
-
         gameStateManager = new GameStateManager(this);
 
-  
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         levelRecyclerView.setLayoutManager(gridLayoutManager);
 
-
         initializeLevels();
 
-    
         levelAdapter = new LevelAdapter(levels, this);
         levelRecyclerView.setAdapter(levelAdapter);
 
@@ -119,7 +113,17 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
                 "com.example.androidventure.levels.VariableVaultLevel"
         ));
 
-
+        // Level 5: Async Abyss
+        levels.add(new Level(
+                5,
+                getString(R.string.level_5_name),
+                getString(R.string.level_5_description),
+                R.drawable.level5_icon,
+                false,
+                false,
+                0,
+                "com.example.androidventure.levels.AsyncAbyssLevel"
+        ));
     }
 
     private void updateLevelStatus() {
@@ -142,7 +146,7 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
     public void onLevelClick(Level level) {
         if (level.isUnlocked()) {
             try {
-                // Load the level activity dynamically using reflection
+
                 Class<?> levelClass = Class.forName(level.getClassName());
                 Intent intent = new Intent(this, levelClass);
                 intent.putExtra("level_id", level.getId());

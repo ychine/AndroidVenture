@@ -27,16 +27,14 @@
             android:src="@drawable/bg_level_gradient"
             android:alpha="0.85" />
 
-        <!-- Overlay for lock/disabled -->
+
         <View
             android:id="@+id/overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#80000000" />
 
-        <!-- Level Icon with shadow -->
 
-        <!-- Level Number in a colored circle -->
         <TextView
             android:id="@+id/level_number"
             android:layout_width="28dp"
@@ -53,7 +51,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1" />
 
-        <!-- Level Name -->
+
         <ImageView
             android:id="@+id/level_icon"
             android:layout_width="56dp"

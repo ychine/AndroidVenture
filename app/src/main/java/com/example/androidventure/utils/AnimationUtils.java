@@ -17,13 +17,6 @@ public class AnimationUtils {
 
     private static final long DEFAULT_DURATION = 300;
 
-    /**
-     * Creates a bounce animation for a view
-     *
-     * @param view The view to animate
-     * @param duration Animation duration in milliseconds
-     * @return AnimatorSet ready to start
-     */
     public static AnimatorSet createBounceAnimation(View view, long duration) {
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.2f, 1f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.2f, 1f);
@@ -40,23 +33,11 @@ public class AnimationUtils {
         return animatorSet;
     }
 
-    /**
-     * Creates a bounce animation with default duration
-     *
-     * @param view The view to animate
-     * @return AnimatorSet ready to start
-     */
     public static AnimatorSet createBounceAnimation(View view) {
         return createBounceAnimation(view, DEFAULT_DURATION);
     }
 
-    /**
-     * Creates a pulsing animation for a view
-     *
-     * @param view The view to animate
-     * @param repeatCount Number of times to repeat (-1 for infinite)
-     * @return AnimatorSet ready to start
-     */
+
     public static AnimatorSet createPulseAnimation(View view, int repeatCount) {
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.1f, 1f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.1f, 1f);
@@ -76,13 +57,6 @@ public class AnimationUtils {
         return animatorSet;
     }
 
-    /**
-     * Creates a fade in animation
-     *
-     * @param view The view to animate
-     * @param duration Duration in milliseconds
-     * @return ObjectAnimator ready to start
-     */
     public static ObjectAnimator createFadeInAnimation(View view, long duration) {
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
         fadeIn.setDuration(duration);
@@ -90,13 +64,7 @@ public class AnimationUtils {
         return fadeIn;
     }
 
-    /**
-     * Creates a fade out animation
-     *
-     * @param view The view to animate
-     * @param duration Duration in milliseconds
-     * @return ObjectAnimator ready to start
-     */
+
     public static ObjectAnimator createFadeOutAnimation(View view, long duration) {
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f);
         fadeOut.setDuration(duration);
@@ -104,13 +72,7 @@ public class AnimationUtils {
         return fadeOut;
     }
 
-    /**
-     * Creates a slide in animation from the bottom
-     *
-     * @param view The view to animate
-     * @param duration Duration in milliseconds
-     * @return ObjectAnimator ready to start
-     */
+
     public static ObjectAnimator createSlideInAnimation(View view, long duration) {
         float distance = view.getResources().getDisplayMetrics().heightPixels;
         ObjectAnimator slideIn = ObjectAnimator.ofFloat(view, "translationY", distance, 0f);
@@ -119,13 +81,7 @@ public class AnimationUtils {
         return slideIn;
     }
 
-    /**
-     * Creates a slide out animation to the bottom
-     *
-     * @param view The view to animate
-     * @param duration Duration in milliseconds
-     * @return ObjectAnimator ready to start
-     */
+
     public static ObjectAnimator createSlideOutAnimation(View view, long duration) {
         float distance = view.getResources().getDisplayMetrics().heightPixels;
         ObjectAnimator slideOut = ObjectAnimator.ofFloat(view, "translationY", 0f, distance);
@@ -134,12 +90,6 @@ public class AnimationUtils {
         return slideOut;
     }
 
-    /**
-     * Creates a success animation with scale and bounce
-     *
-     * @param view The view to animate
-     * @return AnimatorSet ready to start
-     */
     public static AnimatorSet createSuccessAnimation(View view) {
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.3f, 1f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.3f, 1f);
@@ -158,24 +108,13 @@ public class AnimationUtils {
         return animatorSet;
     }
 
-    /**
-     * Creates a failure/shake animation
-     *
-     * @param view The view to animate
-     * @return ObjectAnimator ready to start
-     */
     public static ObjectAnimator createShakeAnimation(View view) {
         ObjectAnimator shake = ObjectAnimator.ofFloat(view, "translationX", 0, -15, 15, -10, 10, -5, 5, 0);
         shake.setDuration(500);
         return shake;
     }
 
-    /**
-     * Creates a highlight animation to draw attention to a view
-     *
-     * @param view The view to animate
-     * @return AnimatorSet ready to start
-     */
+
     public static AnimatorSet createHighlightAnimation(View view) {
         ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.1f, 1f);
         ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.1f, 1f);
@@ -195,14 +134,6 @@ public class AnimationUtils {
         return animatorSet;
     }
 
-    /**
-     * Creates a floating animation that moves a view up and down slightly
-     *
-     * @param view The view to animate
-     * @param distance Distance to float in pixels
-     * @param repeatCount Number of times to repeat (-1 for infinite)
-     * @return ObjectAnimator ready to start
-     */
     public static ObjectAnimator createFloatingAnimation(View view, float distance, int repeatCount) {
         ObjectAnimator floatAnim = ObjectAnimator.ofFloat(view, "translationY", 0f, -distance, 0f, distance, 0f);
         floatAnim.setDuration(3000);

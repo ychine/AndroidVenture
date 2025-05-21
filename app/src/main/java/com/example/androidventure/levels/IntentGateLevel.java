@@ -31,12 +31,10 @@ public class IntentGateLevel extends AppCompatActivity {
     private Button hintButton;
     private GameStateManager gameStateManager;
 
-    // Code blocks
     private DraggableCodeBlock intentBlock;
     private DraggableCodeBlock contextBlock;
     private DraggableCodeBlock activityBlock;
 
-    // Drop targets
     private View targetIntent;
     private View targetContext;
     private View targetActivity;
@@ -53,16 +51,12 @@ public class IntentGateLevel extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intent_gate_level);
 
-        // Initialize game state manager
         gameStateManager = new GameStateManager(this);
 
-        // Initialize SoundManager
         SoundManager.getInstance(this);
 
-        // Initialize UI components
         initializeUI();
 
-        // Setup draggable blocks
         setupDraggableBlocks();
 
         setupButtons();
@@ -82,10 +76,8 @@ public class IntentGateLevel extends AppCompatActivity {
         hintOverlay = findViewById(R.id.hint_overlay);
         hintText = findViewById(R.id.hint_text);
 
-        // Set level name
         levelTitle.setText(R.string.level_3_name);
 
-        // Set instruction text
         instructionText.setText("Arrange the Intent code blocks in the correct order to launch a new activity.");
     }
 
@@ -94,17 +86,15 @@ public class IntentGateLevel extends AppCompatActivity {
         contextBlock = findViewById(R.id.block_context);
         activityBlock = findViewById(R.id.block_activity);
 
-        // Setup block data and listeners
         intentBlock.setBlockName("Intent intent = new Intent()");
         contextBlock.setBlockName("this, SecondActivity.class");
         activityBlock.setBlockName("startActivity(intent)");
 
-        // Reset positions to original places
         resetBlockPositions();
     }
 
     private void resetBlockPositions() {
-        // Position blocks in a randomized order
+       
         intentBlock.setX(100);
         intentBlock.setY(gameArea.getHeight() - 300);
 
@@ -127,7 +117,6 @@ public class IntentGateLevel extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showHint();
-                // Reduce potential score when hint is used
                 if (score > 1) {
                     score--;
                 }
@@ -143,28 +132,27 @@ public class IntentGateLevel extends AppCompatActivity {
     }
 
     private void showTutorial() {
-        // Simple tutorial that shows how to drag blocks
+       
         Toast.makeText(this, "Drag the code blocks to arrange them in the correct order", Toast.LENGTH_LONG).show();
 
-        // Animate a block to simulate dragging
+       
         ObjectAnimator animation = ObjectAnimator.ofFloat(intentBlock, "translationY",
                 intentBlock.getY(), intentBlock.getY() - 200, intentBlock.getY());
         animation.setDuration(2000);
         animation.start();
 
-        // Mark tutorial as completed
         gameStateManager.setTutorialCompleted(true);
     }
 
     private void showHint() {
-        // Show animated hint overlay
+     
         hintText.setText("Remember: First create the Intent, then specify the context and activity, finally start the activity.");
         hintOverlay.setVisibility(View.VISIBLE);
         hintOverlay.setAlpha(0f);
         hintOverlay.animate().alpha(1f).setDuration(400).start();
-        // Hide after 3 seconds
+       
         new Handler().postDelayed(() -> hintOverlay.animate().alpha(0f).setDuration(400).withEndAction(() -> hintOverlay.setVisibility(View.GONE)).start(), 3000);
-        // Highlight intent block briefly
+       
         ObjectAnimator highlight = ObjectAnimator.ofFloat(intentBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();
@@ -177,19 +165,19 @@ public class IntentGateLevel extends AppCompatActivity {
                 isBlockNearTarget(activityBlock, findViewById(R.id.target_activity));
 
         if (correct) {
-            // Play success sound
+           
             SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
-            // Animate blocks with bounce and glow
+           
             animateBlockSuccess(intentBlock);
             animateBlockSuccess(contextBlock);
             animateBlockSuccess(activityBlock);
             completeLevelSuccess();
         } else {
-            // Reduce score for each failed attempt after the first
+
             if (attempts > 1 && score > 1) {
                 score--;
             }
-            // Play failure sound
+           
             SoundManager.getInstance(this).playSound(SoundManager.SOUND_FAILURE);
             Toast.makeText(this, "Not quite right. Try again!", Toast.LENGTH_SHORT).show();
         }
@@ -220,20 +208,19 @@ public class IntentGateLevel extends AppCompatActivity {
     }
 
     private void completeLevelSuccess() {
-        // Display success message
+
         Toast.makeText(this, R.string.level_complete, Toast.LENGTH_LONG).show();
 
-        // Save progress
         gameStateManager.setLevelCompleted(LEVEL_ID, true);
         gameStateManager.setLevelScore(LEVEL_ID, score);
 
-        // Show success animation
+        
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(gameArea, "alpha",
                 1f, 0.5f);
         fadeOut.setDuration(1000);
         fadeOut.start();
 
-        // Return to level select after a delay
+       
         gameArea.postDelayed(new Runnable() {
             @Override
             public void run() {

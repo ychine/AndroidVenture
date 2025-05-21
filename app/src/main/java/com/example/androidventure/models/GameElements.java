@@ -24,17 +24,6 @@ public class GameElements {
     private int resourceId;
     private String code;
 
-    /**
-     * Constructor for creating game elements
-     *
-     * @param id Unique identifier for the element
-     * @param type Type of the element
-     * @param displayText Text to display on the element
-     * @param icon Optional icon for the element
-     * @param isInteractive Whether the element responds to user input
-     * @param resourceId Resource ID for the element's drawable
-     * @param code Optional code snippet associated with this element
-     */
     public GameElements(int id, ElementType type, String displayText, Drawable icon,
                         boolean isInteractive, int resourceId, String code) {
         this.id = id;
@@ -46,9 +35,6 @@ public class GameElements {
         this.code = code;
     }
 
-    /**
-     * Constructor with minimal required parameters
-     */
     public GameElements(int id, ElementType type, String displayText, int resourceId) {
         this(id, type, displayText, null, true, resourceId, null);
     }

@@ -12,17 +12,11 @@
         </shape>
     </item>
 
-    <!-- Grid pattern overlay -->
-    <item>
-        <bitmap
-            android:src="@drawable/grid_pattern"
-            android:tileMode="repeat"
-            android:alpha="25" /> <!-- use 0-255 instead of 0.1 float -->
-    </item>
 
-    <!-- Top light effect (positioned normally to avoid error) -->
+
+
     <item android:top="0dp">
-        <shape android:shape="oval">
+        <shape android:shape="rectangle">
             <gradient
                 android:type="radial"
                 android:gradientRadius="500dp"
@@ -32,7 +26,6 @@
         </shape>
     </item>
 
-    <!-- Bottom-right light effect -->
     <item android:right="0dp" android:bottom="0dp">
         <shape android:shape="oval">
             <gradient

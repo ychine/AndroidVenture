@@ -63,4 +63,5 @@
     <color name="connector_line">#FF5722</color>
     <color name="success_green">#4CAF50</color>  <!-- or any green -->
     <color name="error_red">#F44336</color>
+    <color name="titleColor">#91FF86</color>
 </resources>

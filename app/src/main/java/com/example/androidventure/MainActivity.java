@@ -90,18 +90,15 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_settings, null);
-        
-        // Initialize settings switches
+
         Switch soundSwitch = dialogView.findViewById(R.id.sound_switch);
         Switch musicSwitch = dialogView.findViewById(R.id.music_switch);
         Switch vibrationSwitch = dialogView.findViewById(R.id.vibration_switch);
-        
-        // Load saved preferences
+
         soundSwitch.setChecked(preferences.getBoolean("sound_enabled", true));
         musicSwitch.setChecked(preferences.getBoolean("music_enabled", true));
         vibrationSwitch.setChecked(preferences.getBoolean("vibration_enabled", true));
-        
-        // Set up switch listeners
+
         soundSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             preferences.edit().putBoolean("sound_enabled", isChecked).apply();
         });
