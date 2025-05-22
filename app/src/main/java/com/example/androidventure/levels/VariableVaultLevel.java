@@ -1,3 +1,13 @@
+/**
+ * Level 4: Variable Vault
+ * Interactive level teaching Android variable types and data structures through drag-and-drop gameplay.
+ * Players learn to identify and match different variable types:
+ * - String: Text data (e.g., "John")
+ * - int: Integer numbers (e.g., 25)
+ * - boolean: True/false values (e.g., true)
+ * - float: Decimal numbers (e.g., 19.99f)
+ */
+
 package com.example.androidventure.levels;
 
 import android.animation.AnimatorSet;

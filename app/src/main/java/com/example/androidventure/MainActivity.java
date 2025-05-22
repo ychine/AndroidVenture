@@ -1,3 +1,9 @@
+/**
+ * Main entry point for the AndroidVenture
+ * This activity serves as the launcher activity and displays the main menu
+ * with options to start the game or access settings.
+ */
+
 package com.example.androidventure;
 
 import android.content.Intent;
@@ -29,27 +35,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize preferences
         preferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
-
-        // Initialize UI components
         startButton = findViewById(R.id.start_button);
         settingsButton = findViewById(R.id.settings_button);
         logoImageView = findViewById(R.id.logo_image);
         titleTextView = findViewById(R.id.title_text);
 
-        // Enhanced animations
         Animation fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         fadeIn.setDuration(1500);
         logoImageView.startAnimation(fadeIn);
         titleTextView.startAnimation(fadeIn);
 
-        // Add bounce animation for buttons
         Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
         startButton.startAnimation(bounce);
         settingsButton.startAnimation(bounce);
 
-        // Set up click listeners
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

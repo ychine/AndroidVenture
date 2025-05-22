@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
+/**
+ * Custom TextView component that implements draggable functionality.
+ * Handles touch events for dragging the text block within a parent container.
+ */
+
 import com.example.androidventure.R;
 import com.example.androidventure.utils.SoundManager;
 

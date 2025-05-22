@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
     tools:context=".MainActivity">
+    <!--
+    Main activity layout for AndroidVenture.
+    Contains the game logo, title, and main menu buttons.
+    Uses ConstraintLayout for responsive design.
+
+    -->
 
     <ImageView
         android:id="@+id/logo_image"

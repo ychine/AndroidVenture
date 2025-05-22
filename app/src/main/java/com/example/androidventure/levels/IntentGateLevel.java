@@ -1,3 +1,9 @@
+/**
+ * Level 3: Intent Gate
+ * Educational level focused on Android Intent system.
+ * Players learn to properly create and use Intents for activity navigation.
+ */
+
 package com.example.androidventure.levels;
 
 import android.animation.AnimatorSet;
@@ -66,6 +72,10 @@ public class IntentGateLevel extends AppCompatActivity {
         }
     }
 
+    /*
+     * Initializes the game's UI components and sets up the initial state.
+     * Called when the activity is first created.
+     */
     private void initializeUI() {
         gameArea = findViewById(R.id.game_area);
         levelTitle = findViewById(R.id.level_title);
@@ -81,12 +91,16 @@ public class IntentGateLevel extends AppCompatActivity {
         instructionText.setText("Arrange the Intent code blocks in the correct order to launch a new activity.");
     }
 
+    /*
+     * Sets up draggable code blocks with their initial positions and properties.
+     * Configures block names and positions them in the game area.
+     */
     private void setupDraggableBlocks() {
         intentBlock = findViewById(R.id.block_intent);
         contextBlock = findViewById(R.id.block_context);
         activityBlock = findViewById(R.id.block_activity);
 
-        intentBlock.setBlockName("Intent intent = new Intent()");
+        intentBlock.setBlockName("Intent intent = new Intent(");
         contextBlock.setBlockName("this, SecondActivity.class");
         activityBlock.setBlockName("startActivity(intent)");
 
@@ -157,7 +171,11 @@ public class IntentGateLevel extends AppCompatActivity {
         highlight.setDuration(1000);
         highlight.start();
     }
-
+    /*
+     * Validates the player's answer and updates the game state accordingly.
+     * Checks if blocks are in correct positions and order.
+     * Updates score and provides feedback to the player.
+     */
     private void checkAnswer() {
         attempts++;
         boolean correct = isBlockNearTarget(intentBlock, findViewById(R.id.target_intent)) &&
@@ -165,21 +183,28 @@ public class IntentGateLevel extends AppCompatActivity {
                 isBlockNearTarget(activityBlock, findViewById(R.id.target_activity));
 
         if (correct) {
-           
-            SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
-           
-            animateBlockSuccess(intentBlock);
-            animateBlockSuccess(contextBlock);
-            animateBlockSuccess(activityBlock);
-            completeLevelSuccess();
-        } else {
+            boolean correctOrder = intentBlock.getY() < contextBlock.getY() && 
+                                 contextBlock.getY() < activityBlock.getY();
 
+            if (correctOrder) {
+                SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
+                animateBlockSuccess(intentBlock);
+                animateBlockSuccess(contextBlock);
+                animateBlockSuccess(activityBlock);
+                completeLevelSuccess();
+            } else {
+                if (attempts > 1 && score > 1) {
+                    score--;
+                }
+                SoundManager.getInstance(this).playSound(SoundManager.SOUND_FAILURE);
+                Toast.makeText(this, "The order is incorrect. Remember: First create the Intent, then specify the context and activity, finally start the activity.", Toast.LENGTH_LONG).show();
+            }
+        } else {
             if (attempts > 1 && score > 1) {
                 score--;
             }
-           
             SoundManager.getInstance(this).playSound(SoundManager.SOUND_FAILURE);
-            Toast.makeText(this, "Not quite right. Try again!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not quite right. Make sure all blocks are in their correct positions!", Toast.LENGTH_SHORT).show();
         }
     }
 

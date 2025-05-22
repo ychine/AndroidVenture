@@ -1,26 +1,32 @@
+/**
+ * Tracks overall player progress in the AndroidVenture game.
+ * Maintains statistics and achievements including:
+ * - Total stars earned across all levels
+ * - Number of completed levels
+ * - Highest level unlocked
+ * - Tutorial completion status
+ * - Total play time
+ */
+
 package com.example.androidventure.models;
 
-/**
- * Tracks overall player progress in the game
- */
+
 public class GameProgress {
     private int totalStars;
     private int levelsCompleted;
     private int highestLevelUnlocked;
     private boolean tutorialCompleted;
-    private long totalPlayTime; // in milliseconds
+    private long totalPlayTime;
 
     public GameProgress() {
         this.totalStars = 0;
         this.levelsCompleted = 0;
-        this.highestLevelUnlocked = 1; // First level always unlocked
+        this.highestLevelUnlocked = 1; 
         this.tutorialCompleted = false;
         this.totalPlayTime = 0;
     }
 
-    /**
-     * Creates GameProgress with specified values
-     */
+   
     public GameProgress(int totalStars, int levelsCompleted, int highestLevelUnlocked,
                         boolean tutorialCompleted, long totalPlayTime) {
         this.totalStars = totalStars;
@@ -30,7 +36,6 @@ public class GameProgress {
         this.totalPlayTime = totalPlayTime;
     }
 
-    // Getters and setters
     public int getTotalStars() {
         return totalStars;
     }

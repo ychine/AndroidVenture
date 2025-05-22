@@ -1,3 +1,13 @@
+/**
+ * Adapter for displaying levels in a RecyclerView grid.
+ * Handles the binding of level data to UI elements and manages:
+ * - Level item layout and styling
+ * - Click interactions and animations
+ * - Visual state (locked/unlocked, completed)
+ * - Star rating display
+ * - Ripple effects and overlays
+ */
+
 package com.example.androidventure.adapters;
 
 import android.view.LayoutInflater;

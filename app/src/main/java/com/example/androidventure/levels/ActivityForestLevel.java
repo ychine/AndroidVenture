@@ -1,3 +1,9 @@
+/**
+ * Level 1: Activity Forest
+ * Teaches Android Activity lifecycle through interactive drag-and-drop gameplay.
+ * Players must arrange lifecycle methods in the correct order.
+ */
+
 package com.example.androidventure.levels;
 
 import android.animation.AnimatorSet;

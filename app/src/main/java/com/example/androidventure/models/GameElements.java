@@ -1,3 +1,15 @@
+/**
+ * Model class representing game elements used across different levels.
+ * Defines the structure and properties of interactive elements in the game.
+ *
+ * Element types include:
+ * - Code blocks for drag-and-drop interactions
+ * - Target areas for block placement
+ * - Obstacles and decorations
+ * - Connectors for linking elements
+ * - Hints for player assistance
+ */
+
 package com.example.androidventure.models;
 
 import android.graphics.drawable.Drawable;

@@ -1,3 +1,13 @@
+/**
+ * Level 5: Async Abyss
+ * Teaches asynchronous programming concepts in Android through interactive gameplay.
+ * Players learn about different async mechanisms:
+ * - AsyncTask
+ * - Coroutines
+ * - Handlers
+ * - RxJava
+ */
+
 package com.example.androidventure.levels;
 
 import android.animation.AnimatorSet;

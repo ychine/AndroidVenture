@@ -1,3 +1,13 @@
+/**
+ * Level 6: Notification Anatomy
+ * Interactive level teaching Android notification components and structure.
+ * Players learn to identify and position:
+ * - Small and large icons
+ * - App name and timestamp
+ * - Title and content text
+ * - Notification actions
+ */
+
 package com.example.androidventure.levels;
 
 import android.animation.AnimatorSet;

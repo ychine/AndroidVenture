@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+    String resources for AndroidVenture.
+    Contains all text content used throughout the application.
+    Organized by feature and screen.
+    -->
+
     <!-- App Name and Text -->
     <string name="app_name">AndroidVenture</string>
     <string name="app_subtitle">Made By \nBenitez, Martinez, Santos</string>

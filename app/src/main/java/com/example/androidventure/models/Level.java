@@ -1,8 +1,14 @@
+/**
+ * Model class that represents a game level in AndroidVenture.
+ * Contains all necessary information about a level including:
+ * - Level identification and metadata
+ * - Visual elements (name, description, icon)
+ * - Progress tracking (unlock status, completion, score)
+ * - Navigation information (target activity class)
+ */
+
 package com.example.androidventure.models;
 
-/**
- * Model class that represents a game level
- */
 public class Level {
     private int id;
     private String name;

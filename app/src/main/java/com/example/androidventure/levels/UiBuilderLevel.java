@@ -1,3 +1,9 @@
+/**
+ * Level 2: UI Builder's Workshop
+ * Interactive level teaching Android UI components through drag-and-drop assembly.
+ * Players match UI components with their correct positions and properties.
+ */
+
 package com.example.androidventure.levels;
 
 import android.animation.AnimatorSet;
@@ -87,19 +93,17 @@ public class UiBuilderLevel extends AppCompatActivity {
         recyclerViewBlock = findViewById(R.id.block_recyclerview);
         imageViewBlock = findViewById(R.id.block_imageview);
 
-        // Setup block data and listeners
         buttonBlock.setBlockName("Button");
         textViewBlock.setBlockName("TextView");
         editTextBlock.setBlockName("EditText");
         recyclerViewBlock.setBlockName("RecyclerView");
         imageViewBlock.setBlockName("ImageView");
 
-        // Reset positions to original places
         resetBlockPositions();
     }
 
     private void resetBlockPositions() {
-        // Position blocks in a randomized order at the bottom area
+
         buttonBlock.setX(100);
         buttonBlock.setY(gameArea.getHeight() - 10);
 
@@ -128,7 +132,7 @@ public class UiBuilderLevel extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showHint();
-                // Reduce potential score when hint is used
+
                 if (score > 1) {
                     score--;
                 }
@@ -144,28 +148,26 @@ public class UiBuilderLevel extends AppCompatActivity {
     }
 
     private void showTutorial() {
-        // Simple tutorial that shows how to drag blocks
+
         Toast.makeText(this, "Drag the UI components to match them with their icons", Toast.LENGTH_LONG).show();
 
-        // Animate a block to simulate dragging
         ObjectAnimator animation = ObjectAnimator.ofFloat(buttonBlock, "translationY",
                 buttonBlock.getY(), buttonBlock.getY() - 200, buttonBlock.getY());
         animation.setDuration(2000);
         animation.start();
 
-        // Mark tutorial as completed
         gameStateManager.setTutorialCompleted(true);
     }
 
     private void showHint() {
-        // Show animated hint overlay
+
         hintText.setText("Remember: Button for actions, TextView for text display, EditText for user input, RecyclerView for lists, and ImageView for images.");
         hintOverlay.setVisibility(View.VISIBLE);
         hintOverlay.setAlpha(0f);
         hintOverlay.animate().alpha(1f).setDuration(400).start();
-        // Hide after 3 seconds
+
         new Handler().postDelayed(() -> hintOverlay.animate().alpha(0f).setDuration(400).withEndAction(() -> hintOverlay.setVisibility(View.GONE)).start(), 3000);
-        // Highlight button block briefly
+
         ObjectAnimator highlight = ObjectAnimator.ofFloat(buttonBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();
@@ -174,7 +176,6 @@ public class UiBuilderLevel extends AppCompatActivity {
     private void checkAnswer() {
         attempts++;
 
-        // Check if blocks are in correct positions
         boolean correct = isBlockNearTarget(buttonBlock, findViewById(R.id.target_button)) &&
                 isBlockNearTarget(textViewBlock, findViewById(R.id.target_textview)) &&
                 isBlockNearTarget(editTextBlock, findViewById(R.id.target_edittext)) &&
@@ -182,9 +183,21 @@ public class UiBuilderLevel extends AppCompatActivity {
                 isBlockNearTarget(imageViewBlock, findViewById(R.id.target_imageview));
 
         if (correct) {
-            // Play success sound
+
+            boolean buttonCorrect = buttonBlock.getBlockName().equals("Button");
+            boolean textViewCorrect = textViewBlock.getBlockName().equals("TextView");
+            boolean editTextCorrect = editTextBlock.getBlockName().equals("EditText");
+            boolean recyclerViewCorrect = recyclerViewBlock.getBlockName().equals("RecyclerView");
+            boolean imageViewCorrect = imageViewBlock.getBlockName().equals("ImageView");
+
+            correct = buttonCorrect && textViewCorrect && editTextCorrect && 
+                     recyclerViewCorrect && imageViewCorrect;
+        }
+
+        if (correct) {
+
             SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
-            // Animate blocks with bounce and glow
+
             animateBlockSuccess(buttonBlock);
             animateBlockSuccess(textViewBlock);
             animateBlockSuccess(editTextBlock);
@@ -192,13 +205,13 @@ public class UiBuilderLevel extends AppCompatActivity {
             animateBlockSuccess(imageViewBlock);
             completeLevelSuccess();
         } else {
-            // Reduce score for each failed attempt after the first
+
             if (attempts > 1 && score > 1) {
                 score--;
             }
-            // Play failure sound
+
             SoundManager.getInstance(this).playSound(SoundManager.SOUND_FAILURE);
-            Toast.makeText(this, "Not quite right. Try again!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not quite right. Make sure each component is matched with its correct target!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -213,7 +226,7 @@ public class UiBuilderLevel extends AppCompatActivity {
                 Math.pow(blockCenterX - targetCenterX, 2) +
                         Math.pow(blockCenterY - targetCenterY, 2));
 
-        return distance < 150;
+        return distance < 50;
     }
 
     private void animateBlockSuccess(View block) {
@@ -227,20 +240,16 @@ public class UiBuilderLevel extends AppCompatActivity {
     }
 
     private void completeLevelSuccess() {
-        // Display success message
         Toast.makeText(this, R.string.level_complete, Toast.LENGTH_LONG).show();
 
-        // Save progress
         gameStateManager.setLevelCompleted(LEVEL_ID, true);
         gameStateManager.setLevelScore(LEVEL_ID, score);
 
-        // Show success animation
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(gameArea, "alpha",
                 1f, 0.5f);
         fadeOut.setDuration(1000);
         fadeOut.start();
 
-        // Return to level select after a delay
         gameArea.postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--
+    Color resources for AndroidVenture.
+    Defines the color scheme for the entire application.
+    Includes theme colors and level-specific colors.
+
+    -->
     <!-- Main Theme Colors -->
     <color name="colorPrimary">#4285F4</color>
     <color name="colorPrimaryDark">#3367D6</color>
