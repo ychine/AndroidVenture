@@ -38,6 +38,7 @@ public class ActivityForestLevel extends AppCompatActivity {
     private Button hintButton;
     private ImageView lifecycleMapView;
     private GameStateManager gameStateManager;
+    private SoundManager soundManager;
 
     private DraggableCodeBlock onCreateBlock;
     private DraggableCodeBlock onStartBlock;
@@ -67,7 +68,10 @@ public class ActivityForestLevel extends AppCompatActivity {
 
         //initailization
         gameStateManager = new GameStateManager(this);
-        SoundManager.getInstance(this);
+        soundManager = SoundManager.getInstance(this);
+
+        soundManager.playMusic(R.raw.levelbgmusic, true);
+
         initializeUI();
         setupDraggableBlocks();
         setupDropTargets();
@@ -81,6 +85,24 @@ public class ActivityForestLevel extends AppCompatActivity {
         confettiOverlay = findViewById(R.id.confetti_overlay);
         hintOverlay = findViewById(R.id.hint_overlay);
         hintText = findViewById(R.id.hint_text);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        soundManager.pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        soundManager.resumeMusic();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundManager.stopMusic();
     }
 
     private void initializeUI() {

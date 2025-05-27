@@ -39,14 +39,13 @@ public class VariableVaultLevel extends AppCompatActivity {
     private Button checkButton;
     private Button hintButton;
     private GameStateManager gameStateManager;
+    private SoundManager soundManager;
 
-    // Code blocks
     private DraggableCodeBlock stringBlock;
     private DraggableCodeBlock intBlock;
     private DraggableCodeBlock booleanBlock;
     private DraggableCodeBlock floatBlock;
 
-    // Drop targets
     private View targetString;
     private View targetInt;
     private View targetBoolean;
@@ -64,25 +63,38 @@ public class VariableVaultLevel extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_variable_vault_level);
 
-        // Initialize game state manager
         gameStateManager = new GameStateManager(this);
+        soundManager = SoundManager.getInstance(this);
 
-        // Initialize SoundManager
-        SoundManager.getInstance(this);
 
-        // Initialize UI components
+        soundManager.playMusic(R.raw.levelbgmusic, true);
+
+
         initializeUI();
-
-        // Setup draggable blocks
         setupDraggableBlocks();
-
-        // Setup buttons
         setupButtons();
 
-        // Show tutorial if this is first time
         if (!gameStateManager.isTutorialCompleted()) {
             showTutorial();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        soundManager.pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        soundManager.resumeMusic();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundManager.stopMusic();
     }
 
     private void initializeUI() {
@@ -95,10 +107,8 @@ public class VariableVaultLevel extends AppCompatActivity {
         hintOverlay = findViewById(R.id.hint_overlay);
         hintText = findViewById(R.id.hint_text);
 
-        // Set level name
         levelTitle.setText(R.string.level_4_name);
 
-        // Set instruction text
         instructionText.setText("Match the variables with their correct data types");
     }
 
@@ -108,18 +118,16 @@ public class VariableVaultLevel extends AppCompatActivity {
         booleanBlock = findViewById(R.id.block_boolean);
         floatBlock = findViewById(R.id.block_float);
 
-        // Setup block data and listeners
         stringBlock.setBlockName("name = \"John\"");
         intBlock.setBlockName("age = 25");
         booleanBlock.setBlockName("isActive = true");
         floatBlock.setBlockName("price = 19.99f");
 
-        // Reset positions to original places
         resetBlockPositions();
     }
 
     private void resetBlockPositions() {
-        // Position blocks in a randomized order
+
         booleanBlock.setX(100);
         booleanBlock.setY(gameArea.getHeight() - 300);
 
@@ -161,28 +169,27 @@ public class VariableVaultLevel extends AppCompatActivity {
     }
 
     private void showTutorial() {
-        // Simple tutorial that shows how to drag blocks
+
         Toast.makeText(this, "Drag the variable blocks to match them with their data types", Toast.LENGTH_LONG).show();
 
-        // Animate a block to simulate dragging
         ObjectAnimator animation = ObjectAnimator.ofFloat(stringBlock, "translationY",
                 stringBlock.getY(), stringBlock.getY() - 200, stringBlock.getY());
         animation.setDuration(2000);
         animation.start();
 
-        // Mark tutorial as completed
+
         gameStateManager.setTutorialCompleted(true);
     }
 
     private void showHint() {
-        // Show animated hint overlay
+
         hintText.setText("Remember: String for text, int for whole numbers, boolean for true/false, and float for decimal numbers.");
         hintOverlay.setVisibility(View.VISIBLE);
         hintOverlay.setAlpha(0f);
         hintOverlay.animate().alpha(1f).setDuration(400).start();
-        // Hide after 3 seconds
+
         new Handler().postDelayed(() -> hintOverlay.animate().alpha(0f).setDuration(400).withEndAction(() -> hintOverlay.setVisibility(View.GONE)).start(), 3000);
-        // Highlight string block briefly
+
         ObjectAnimator highlight = ObjectAnimator.ofFloat(stringBlock, "alpha", 1f, 0.5f, 1f);
         highlight.setDuration(1000);
         highlight.start();
@@ -196,21 +203,21 @@ public class VariableVaultLevel extends AppCompatActivity {
                 isBlockNearTarget(floatBlock, findViewById(R.id.target_float));
 
         if (correct) {
-            // Play success sound
-            SoundManager.getInstance(this).playSound(SoundManager.SOUND_SUCCESS);
-            // Animate blocks with bounce and glow
+
+            soundManager.playSound(SoundManager.SOUND_SUCCESS);
+
             animateBlockSuccess(stringBlock);
             animateBlockSuccess(intBlock);
             animateBlockSuccess(booleanBlock);
             animateBlockSuccess(floatBlock);
             completeLevelSuccess();
         } else {
-            // Reduce score for each failed attempt after the first
+
             if (attempts > 1 && score > 1) {
                 score--;
             }
-            // Play failure sound
-            SoundManager.getInstance(this).playSound(SoundManager.SOUND_FAILURE);
+
+            soundManager.playSound(SoundManager.SOUND_FAILURE);
             Toast.makeText(this, "Not quite right. Try again!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -240,20 +247,16 @@ public class VariableVaultLevel extends AppCompatActivity {
     }
 
     private void completeLevelSuccess() {
-        // Display success message
         Toast.makeText(this, R.string.level_complete, Toast.LENGTH_LONG).show();
 
-        // Save progress
         gameStateManager.setLevelCompleted(LEVEL_ID, true);
         gameStateManager.setLevelScore(LEVEL_ID, score);
 
-        // Show success animation
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(gameArea, "alpha",
                 1f, 0.5f);
         fadeOut.setDuration(1000);
         fadeOut.start();
 
-        // Return to level select after a delay
         gameArea.postDelayed(new Runnable() {
             @Override
             public void run() {

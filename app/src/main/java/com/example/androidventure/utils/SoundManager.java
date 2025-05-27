@@ -24,7 +24,9 @@ public class SoundManager {
     private Context context;
     private boolean soundEnabled = true;
     private boolean musicEnabled = true;
-    private float volume = 1.0f;
+    private float musicVolume = 0.2f;
+    private float sfxVolume = 1.0f;
+    private static final float SFX_VOLUME_MULTIPLIER = 1.5f;
 
     public static final int SOUND_CLICK = 1;
     public static final int SOUND_SUCCESS = 2;
@@ -75,15 +77,17 @@ public class SoundManager {
     }
 
     public void setVolume(float volume) {
-        this.volume = Math.max(0.0f, Math.min(1.0f, volume)); // Clamp between 0.0 and 1.0
+        this.musicVolume = Math.max(0.0f, Math.min(1.0f, volume));
         if (backgroundMusic != null) {
-            backgroundMusic.setVolume(this.volume, this.volume);
+            backgroundMusic.setVolume(this.musicVolume, this.musicVolume);
         }
     }
 
     public void playSound(int soundId) {
         if (soundEnabled && soundMap.get(soundId) != 0) {
-            soundPool.play(soundMap.get(soundId), volume, volume, 1, 0, 1.0f);
+
+            float adjustedVolume = Math.min(1.0f, sfxVolume * SFX_VOLUME_MULTIPLIER);
+            soundPool.play(soundMap.get(soundId), adjustedVolume, adjustedVolume, 1, 0, 1.0f);
         }
     }
 
@@ -94,7 +98,7 @@ public class SoundManager {
 
         backgroundMusic = MediaPlayer.create(context, resId);
         if (backgroundMusic != null) {
-            backgroundMusic.setVolume(volume, volume);
+            backgroundMusic.setVolume(musicVolume, musicVolume);
             backgroundMusic.setLooping(loop);
             backgroundMusic.start();
         }

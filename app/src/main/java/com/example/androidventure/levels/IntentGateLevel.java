@@ -36,6 +36,7 @@ public class IntentGateLevel extends AppCompatActivity {
     private Button checkButton;
     private Button hintButton;
     private GameStateManager gameStateManager;
+    private SoundManager soundManager;
 
     private DraggableCodeBlock intentBlock;
     private DraggableCodeBlock contextBlock;
@@ -58,8 +59,9 @@ public class IntentGateLevel extends AppCompatActivity {
         setContentView(R.layout.activity_intent_gate_level);
 
         gameStateManager = new GameStateManager(this);
+        soundManager = SoundManager.getInstance(this);
 
-        SoundManager.getInstance(this);
+        soundManager.playMusic(R.raw.levelbgmusic, true);
 
         initializeUI();
 
@@ -70,6 +72,24 @@ public class IntentGateLevel extends AppCompatActivity {
         if (!gameStateManager.isTutorialCompleted()) {
             showTutorial();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        soundManager.pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        soundManager.resumeMusic();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundManager.stopMusic();
     }
 
     /*

@@ -41,6 +41,7 @@ public class NotificationAnatomyLevel extends AppCompatActivity {
     private Button hintButton;
     private ImageView notificationAnatomyImage;
     private GameStateManager gameStateManager;
+    private SoundManager soundManager;
 
     private DraggableCodeBlock smallIconBlock;
     private DraggableCodeBlock appNameBlock;
@@ -69,7 +70,9 @@ public class NotificationAnatomyLevel extends AppCompatActivity {
         setContentView(R.layout.activity_notification_anatomy_level);
 
         gameStateManager = new GameStateManager(this);
-        SoundManager.getInstance(this);
+        soundManager = SoundManager.getInstance(this);
+
+        soundManager.playMusic(R.raw.levelbgmusic, true);
 
         initializeUI();
         setupDraggableBlocks();
@@ -78,6 +81,24 @@ public class NotificationAnatomyLevel extends AppCompatActivity {
         if (!gameStateManager.isTutorialCompleted()) {
             showTutorial();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        soundManager.pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        soundManager.resumeMusic();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundManager.stopMusic();
     }
 
     private void initializeUI() {
