@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidventure.utils.SoundManager;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button startButton;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonAbout;
     private ImageView logoImageView;
     private SharedPreferences preferences;
+    private SoundManager soundManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         preferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
+        soundManager = SoundManager.getInstance(this);
+
+        soundManager.setVolume(0.2f);
+      
+        if (preferences.getBoolean("music_enabled", true)) {
+            soundManager.playMusic(R.raw.bgmusic, true);
+        }
+
         startButton = findViewById(R.id.start_button);
         settingsButton = findViewById(R.id.settings_button);
         buttonAbout = findViewById(R.id.buttonAbout);
@@ -51,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Enhanced button animation
+                soundManager.playSound(SoundManager.SOUND_CLICK);
                 v.animate()
                     .scaleX(0.9f)
                     .scaleY(0.9f)
@@ -79,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundManager.playSound(SoundManager.SOUND_CLICK);
                 showSettingsDialog();
             }
         });
@@ -86,10 +98,31 @@ public class MainActivity extends AppCompatActivity {
         buttonAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                soundManager.playSound(SoundManager.SOUND_CLICK);
                 Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        soundManager.pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (preferences.getBoolean("music_enabled", true)) {
+            soundManager.resumeMusic();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        soundManager.stopMusic();
     }
 
     private void showSettingsDialog() {
@@ -111,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
         
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             preferences.edit().putBoolean("music_enabled", isChecked).apply();
+            if (isChecked) {
+                soundManager.playMusic(R.raw.bgmusic, true);
+            } else {
+                soundManager.stopMusic();
+            }
         });
         
         vibrationSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {

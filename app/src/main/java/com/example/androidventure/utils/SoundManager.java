@@ -65,7 +65,6 @@ public class SoundManager {
     }
 
     private void loadSounds() {
-    
         soundMap.put(SOUND_CLICK, soundPool.load(context, R.raw.click, 1));
         soundMap.put(SOUND_SUCCESS, soundPool.load(context, R.raw.success, 1));
         soundMap.put(SOUND_FAILURE, soundPool.load(context, R.raw.failure, 1));
@@ -73,6 +72,13 @@ public class SoundManager {
         soundMap.put(SOUND_DROP, soundPool.load(context, R.raw.drop, 1));
         soundMap.put(SOUND_LEVEL_COMPLETE, soundPool.load(context, R.raw.level_complete, 1));
         soundMap.put(SOUND_UNLOCK, soundPool.load(context, R.raw.unlock, 1));
+    }
+
+    public void setVolume(float volume) {
+        this.volume = Math.max(0.0f, Math.min(1.0f, volume)); // Clamp between 0.0 and 1.0
+        if (backgroundMusic != null) {
+            backgroundMusic.setVolume(this.volume, this.volume);
+        }
     }
 
     public void playSound(int soundId) {
@@ -115,5 +121,4 @@ public class SoundManager {
             backgroundMusic.start();
         }
     }
-
 }
