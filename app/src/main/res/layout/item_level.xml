@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="200dp"
     android:layout_margin="12dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="10dp"
@@ -66,6 +66,7 @@
 
         <TextView
             android:id="@+id/level_name"
+            android:fontFamily="@font/onest_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -90,7 +91,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
-            android:textColor="#E0E0E0"
+            android:textColor="#141414"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

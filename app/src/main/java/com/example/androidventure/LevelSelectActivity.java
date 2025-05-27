@@ -71,7 +71,7 @@ public class LevelSelectActivity extends AppCompatActivity implements LevelAdapt
                 getString(R.string.level_1_name),
                 getString(R.string.level_1_description),
                 R.drawable.level1_icon,
-                true,  // First level is always unlocked
+                true,
                 false,
                 0,
                 "com.example.androidventure.levels.ActivityForestLevel"

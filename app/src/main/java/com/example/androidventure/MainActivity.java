@@ -14,7 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Switch;
 import android.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -26,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button startButton;
     private Button settingsButton;
+    private Button buttonAbout;
     private ImageView logoImageView;
-    private TextView titleTextView;
     private SharedPreferences preferences;
 
     @Override
@@ -38,13 +37,12 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("GameSettings", MODE_PRIVATE);
         startButton = findViewById(R.id.start_button);
         settingsButton = findViewById(R.id.settings_button);
+        buttonAbout = findViewById(R.id.buttonAbout);
         logoImageView = findViewById(R.id.logo_image);
-        titleTextView = findViewById(R.id.title_text);
 
         Animation fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
         fadeIn.setDuration(1500);
         logoImageView.startAnimation(fadeIn);
-        titleTextView.startAnimation(fadeIn);
 
         Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
         startButton.startAnimation(bounce);
@@ -82,6 +80,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showSettingsDialog();
+            }
+        });
+
+        buttonAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent);
             }
         });
     }

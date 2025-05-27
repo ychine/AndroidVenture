@@ -58,7 +58,6 @@ public class SoundManager {
                     .setAudioAttributes(attributes)
                     .build();
         } else {
-            // For older devices
             soundPool = new SoundPool(8, AudioManager.STREAM_MUSIC, 0);
         }
 
@@ -117,32 +116,4 @@ public class SoundManager {
         }
     }
 
-    public void setSoundEnabled(boolean enabled) {
-        this.soundEnabled = enabled;
-    }
-
-    public void setMusicEnabled(boolean enabled) {
-        this.musicEnabled = enabled;
-        if (enabled) {
-            resumeMusic();
-        } else {
-            pauseMusic();
-        }
-    }
-
-    public void setVolume(float volume) {
-        this.volume = volume;
-        if (backgroundMusic != null) {
-            backgroundMusic.setVolume(volume, volume);
-        }
-    }
-
-    public void release() {
-        stopMusic();
-        if (soundPool != null) {
-            soundPool.release();
-            soundPool = null;
-        }
-        instance = null;
-    }
 }
